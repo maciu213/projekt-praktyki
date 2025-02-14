@@ -1,39 +1,54 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import AddTaskPage from './AddTaskPage';
 import './style.css';
 
 function App() {
   return (
-    <div className="flex flex-col items-center">
-      <div className="header">
-          <h1>To-do-list</h1>
-      </div>
-      <div onClick={() => handleClick('Dodaj zadanie')} className="add">
-        Dodaj zadanie
+    <div className="flex">
+      <div className="sidebar">
+        <h2 className="sidebar-title">Menu</h2>
+        <ul className="sidebar-menu">
+          <li><a href="#" className="sidebar-item">Dashboard</a></li>
+          <li><a href="#" className="sidebar-item">Tasks</a></li>
+          <li><a href="#" className="sidebar-item">Settings</a></li>
+        </ul>
       </div>
 
-      {/* Tabela */}
-      <table>
-        <tbody>
-          <tr>
-            <th onClick={() => handleClick('Zadania')} className="clickable">Zadania</th>
-            <th onClick={() => handleClick('Data utworzenia')} className="clickable">Data utworzenia</th>
-            <th onClick={() => handleClick('Termin oddania')} className="clickable">Termin oddania</th>
-          </tr>
-          <tr>
-            <td>*nazwa zadania*</td>
-            <td>*data_utworzenia*</td>
-            <td>*termin_oddania*</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="main-content">
+        <div className="header">
+          <h1>To-do-list</h1>
+        </div>
+
+        <Link to="/add-task" className="add">Add task</Link>
+
+        <table>
+          <tbody>
+            <tr>
+              <th>Task</th>
+              <th>Date</th>
+              <th>Deadline</th>
+            </tr>
+            <tr>
+              <td>*task name*</td>
+              <td>*date*</td>
+              <td>*deadline*</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/add-task" element={<AddTaskPage />} />
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
-

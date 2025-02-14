@@ -2,12 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+.sidebar {
+    @apply w-64 h-screen bg-gray-800 text-white p-5 shadow-lg fixed;
+}
+
+.sidebar-title {
+    @apply text-2xl font-bold mb-6;
+}
+
+.sidebar-menu {
+    @apply space-y-4;
+}
+
+.sidebar-item {
+    @apply block p-2 rounded hover:bg-gray-600;
+}
+
+.sidebar-item:hover {
+    transition-duration: 1s;
+}
+
+.main-content {
+    @apply flex-1 ml-64 flex flex-col items-center p-5;
+}
+
+.header {
+    @apply bg-gray-800 min-w-full p-5 text-white font-sans text-center w-max;
+}
+
+.add {
+    @apply w-fit bg-gray-700 text-white rounded-full p-4 shadow-lg transition duration-300 ease-out cursor-pointer mt-5;
+}
+
+.add:hover {
+    @apply bg-gray-400 shadow-inner;
+}
+
 table {
     @apply w-1/2 my-12 mx-auto border-collapse bg-white text-center font-sans text-xl mt-5 transition ease-out duration-1000;
 }
 
 th {
-    @apply p-5 text-center bg-purple-300 text-white border border-gray-300 transition ease-out duration-1000;
+    @apply p-5 text-center bg-gray-500 text-white border border-gray-300 transition ease-out duration-1000;
 }
 
 td {
@@ -15,20 +51,27 @@ td {
 }
 
 th:hover {
-    @apply bg-purple-600 transition duration-1000;
+    @apply bg-gray-400 transition duration-1000;
 }
 
-.add {
-    @apply w-fit bg-purple-500 text-white rounded-full p-4 shadow-lg transition duration-300 ease-out text-center cursor-pointer;
-    margin-top:5%;
+.flex{
+    backdrop-filter: blur(var(--blur-lg));
 }
 
-.add:hover {
-    @apply bg-purple-300 shadow-inner;
+.elo{
+    @apply bg-black;
 }
 
-.header{
-    @apply bg-purple-300 min-w-full p-5 text-white font-sans;
-    text-align: center;
+body{
+    background-image:url();
 }
 
+.background-container {
+    @apply bg-cover bg-center bg-fixed h-screen w-full;
+    background-image:url("blurred.png");
+  }
+
+.task-form{
+    @apply ml-auto;
+}
+  
