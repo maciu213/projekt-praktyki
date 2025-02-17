@@ -31,7 +31,7 @@
 }
 
 .add {
-    @apply w-fit bg-gray-700 text-white rounded-full p-4 shadow-lg transition duration-300 ease-out cursor-pointer mt-5;
+    @apply w-fit bg-gray-700 text-white rounded-full p-4 shadow-lg transition duration-300 ease-out cursor-pointer mt-5 mb-24;
 }
 
 .add:hover {
@@ -68,10 +68,11 @@ body{
 
 .background-container {
     @apply bg-cover bg-center bg-fixed h-screen w-full;
-    background-image:url("blurred.png");
+    background-image:url("blurred_site.png");
   }
 
 .task-form{
     @apply ml-auto;
 }
+
   

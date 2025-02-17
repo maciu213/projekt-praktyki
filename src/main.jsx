@@ -25,16 +25,7 @@ function App() {
 
         <table>
           <tbody>
-            <tr>
-              <th>Task</th>
-              <th>Date</th>
-              <th>Deadline</th>
-            </tr>
-            <tr>
-              <td>*task name*</td>
-              <td>*date*</td>
-              <td>*deadline*</td>
-            </tr>
+            <label htmlFor="">Add your task clicking the button above.</label>
           </tbody>
         </table>
       </div>
