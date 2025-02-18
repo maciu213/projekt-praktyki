@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AddTaskPage from './AddTaskPage';
+import RegisterLoginPage from './RegisterLoginPage';
+import LoginRegisterPage from './LoginRegisterPage';
 import './style.css';
 
 function App() {
@@ -10,9 +12,9 @@ function App() {
       <div className="sidebar">
         <h2 className="sidebar-title">Menu</h2>
         <ul className="sidebar-menu">
-          <li><a href="#" className="sidebar-item">Dashboard</a></li>
+          <li><Link to="/register-login" className="sidebar-item">Register</Link></li>
+          <li><Link to="/login-register" className="sidebar-item">Login</Link></li>
           <li><a href="#" className="sidebar-item">Tasks</a></li>
-          <li><a href="#" className="sidebar-item">Settings</a></li>
         </ul>
       </div>
 
@@ -39,6 +41,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/add-task" element={<AddTaskPage />} />
+        <Route path="/register-login" element={<RegisterLoginPage />} />
+        <Route path="/login-register" element={<LoginRegisterPage/>} />
       </Routes>
     </Router>
   </React.StrictMode>
