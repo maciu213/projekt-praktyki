@@ -12,6 +12,7 @@ function App() {
 
   const dialogRef = useRef();
   const dialogRef2 = useRef();
+  const dialogRef3 = useRef();
 
   const addTaskDialog = () => {
     dialogRef.current.showModal();
@@ -26,6 +27,10 @@ function App() {
     console.log("klik");
   }
 
+  const loginShow = () => {
+    dialogRef3.current.showModal();
+  }
+
 
   return (
     <div className="flex">
@@ -33,7 +38,7 @@ function App() {
         <h2 className="sidebar-title">Menu</h2>
         <ul className="sidebar-menu">
           <li className="sidebar-item" onClick={registerShow}>Register</li>
-          <li className="sidebar-item">Log in</li>
+          <li className="sidebar-item" onClick={loginShow}>Log in</li>
           <li className="sidebar-item">Tasks</li>
         </ul>
       </div>
@@ -80,6 +85,18 @@ function App() {
           <label className="formLabel">Password</label><input type="password" name="password" /><br></br> <br></br>
           <label className="formLabel">Re-enter password</label><input type="password" name="password" /><br></br> <br></br>
           <label className="formLabel">E-mail</label><input type="email" name="email" /><br></br> <br></br><br></br>
+          <button className="submitButton">Submit</button>
+        </div>
+      </form>
+      </dialog>
+
+      <dialog ref={dialogRef3}>
+      <form className="task-form">
+        <div className="form">
+          <strong id="formname">Log in</strong> <br></br><br></br>
+          <label className="formLabel">Login</label> <input type="text" name="name" /><br></br><br></br>
+          <label className="formLabel">Password</label><input type="password" name="password" /><br></br> <br></br>
+          <label className="forgotPassword">Forgot password?</label><br></br><br></br>
           <button className="submitButton">Submit</button>
         </div>
       </form>
