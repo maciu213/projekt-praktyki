@@ -87,7 +87,7 @@ button {
 }
 
 #formname {
-    @apply p-5 text-lg;
+    @apply p-3 text-lg mr-11;
 }
 
 .submitButton {
@@ -107,3 +107,18 @@ button {
     backdrop-filter: blur(20px); 
 }
 
+.closeIcon {
+    @apply w-1/12 float-left transition-transform duration-300 ease-in-out transform hover:scale-110 active:scale-90 opacity-100;
+}
+
+.closeIcon:active {
+    @apply opacity-0 transition-opacity duration-300 ease-out;
+}
+
+.dialogForm {
+    @apply opacity-0 transform scale-95 transition-opacity transition-transform duration-300 ease-in-out rounded-lg;
+}
+
+.dialogForm.show {
+    @apply opacity-100 transform scale-100;
+}
