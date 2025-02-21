@@ -1,10 +1,19 @@
 import React, { useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AddTaskPage from "./AddTaskPage";
-import RegisterLoginPage from "./RegisterLoginPage";
-import LoginRegisterPage from "./LoginRegisterPage";
 import "./style.css";
+
+function AddTaskPage() {
+  return <div>Add Task Page</div>;
+}
+
+function RegisterLoginPage() {
+  return <div>Register/Login Page</div>;
+}
+
+function LoginRegisterPage() {
+  return <div>Login/Register Page</div>;
+}
 
 function App() {
   const dialogRef = useRef();
@@ -69,10 +78,10 @@ function App() {
             <strong id="formname">Add Task</strong> <br />
             <br />
             <label className="formLabel">Name (Required)</label>
-            <input type="text" name="name" />
+            <input type="text" name="name" required />
             <br />
             <label className="formLabel">Date (Required)</label>
-            <input type="date" name="date" />
+            <input type="date" name="date" required />
             <br />
             <label className="formLabel">Notes (Optional)</label>
             <textarea name="notes" id="notes"></textarea>
@@ -107,19 +116,19 @@ function App() {
             <strong id="formname">Registration</strong> <br />
             <br />
             <label className="formLabel">Login</label>
-            <input type="text" name="name" />
+            <input type="text" name="name" required />
             <br />
             <br />
             <label className="formLabel">Password</label>
-            <input type="password" name="password" />
+            <input type="password" name="password" required />
             <br />
             <br />
             <label className="formLabel">Re-enter password</label>
-            <input type="password" name="password" />
+            <input type="password" name="password" required />
             <br />
             <br />
             <label className="formLabel">E-mail</label>
-            <input type="email" name="email" />
+            <input type="email" name="email" required />
             <br />
             <br />
             <br />
@@ -141,11 +150,11 @@ function App() {
             <strong id="formname">Log in</strong> <br />
             <br />
             <label className="formLabel">Login</label>
-            <input type="text" name="name" />
+            <input type="text" name="name" required />
             <br />
             <br />
             <label className="formLabel">Password</label>
-            <input type="password" name="password" />
+            <input type="password" name="password" required />
             <br />
             <br />
             <label className="forgotPassword">Forgot password?</label>
