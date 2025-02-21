@@ -3,18 +3,6 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./style.css";
 
-function AddTaskPage() {
-  return <div>Add Task Page</div>;
-}
-
-function RegisterLoginPage() {
-  return <div>Register/Login Page</div>;
-}
-
-function LoginRegisterPage() {
-  return <div>Login/Register Page</div>;
-}
-
 function App() {
   const dialogRef = useRef();
   const dialogRef2 = useRef();
@@ -39,7 +27,7 @@ function App() {
   };
 
   return (
-    <div className="flex">
+    <div className="flex flex-col min-h-screen">
       <div className="sidebar">
         <h2 className="sidebar-title">Menu</h2>
         <ul className="sidebar-menu">
@@ -65,8 +53,19 @@ function App() {
         <label>Add your task by clicking the button above.</label>
       </div>
 
+      <footer className="footer bg-gray-800 text-white mt-auto p-1">
+        <div className="footer-content max-w-screen-xl mx-auto text-center">
+          <p>&copy; To-do list.</p>
+          <div className="footer-links mt-4">
+            <a href="/privacy-policy" className="text-blue-400 hover:underline mx-3">Privacy Policy</a>
+            <a href="/terms-of-service" className="text-blue-400 hover:underline mx-3">Terms of Service</a>
+            <a href="/contact" className="text-blue-400 hover:underline mx-3">Contact Us</a>
+          </div>
+        </div>
+      </footer>
+
       {/* Add Task Dialog */}
-      <dialog ref={dialogRef} className={`dialogForm ${dialogState.taskDialog ? "show" : ""}`} id="dialogs">
+      <dialog ref={dialogRef} className={`dialogForm ${dialogState.taskDialog ? "show" : ""}`}>
         <form className="task-form">
           <div className="form">
             <img
@@ -75,36 +74,28 @@ function App() {
               onClick={() => closeDialog(dialogRef, "taskDialog")}
               alt="Close"
             />
-            <strong id="formname">Add Task</strong> <br />
-            <br />
+            <strong id="formName">Add Task</strong> <br />
             <label className="formLabel">Name (Required)</label>
-            <input type="text" name="name" required />
-            <br />
+            <input type="text" name="name" />
             <label className="formLabel">Date (Required)</label>
-            <input type="date" name="date" required />
-            <br />
+            <input type="date" name="date" />
             <label className="formLabel">Notes (Optional)</label>
             <textarea name="notes" id="notes"></textarea>
-            <br />
-            <label className="formLabel">Category (Optional)</label> <br />
+            <label className="formLabel">Category (Optional)</label>
             <select name="category" id="category">
-              <option value="" disabled selected>
-                Select a task
-              </option>
+              <option value="" disabled selected>Select a task</option>
               <option>Category1</option>
               <option>Category2</option>
               <option>Category3</option>
               <option>Category4</option>
             </select>
-            <br />
-            <br />
             <button className="submitButton">Submit</button>
           </div>
         </form>
       </dialog>
 
       {/* Register Dialog */}
-      <dialog ref={dialogRef2} className={`dialogForm ${dialogState.registerDialog ? "show" : ""}`} id="dialogs">
+      <dialog ref={dialogRef2} className={`dialogForm ${dialogState.registerDialog ? "show" : ""}`}>
         <form className="task-form">
           <div className="form">
             <img
@@ -113,32 +104,22 @@ function App() {
               onClick={() => closeDialog(dialogRef2, "registerDialog")}
               alt="Close"
             />
-            <strong id="formname">Registration</strong> <br />
-            <br />
+            <strong id="formName">Registration</strong> <br />
             <label className="formLabel">Login</label>
-            <input type="text" name="name" required />
-            <br />
-            <br />
+            <input type="text" name="name" />
             <label className="formLabel">Password</label>
-            <input type="password" name="password" required />
-            <br />
-            <br />
+            <input type="password" name="password" />
             <label className="formLabel">Re-enter password</label>
-            <input type="password" name="password" required />
-            <br />
-            <br />
+            <input type="password" name="password" />
             <label className="formLabel">E-mail</label>
-            <input type="email" name="email" required />
-            <br />
-            <br />
-            <br />
+            <input type="email" name="email" />
             <button className="submitButton">Submit</button>
           </div>
         </form>
       </dialog>
 
       {/* Login Dialog */}
-      <dialog ref={dialogRef3} className={`dialogForm ${dialogState.loginDialog ? "show" : ""}`} id="dialogs">
+      <dialog ref={dialogRef3} className={`dialogForm ${dialogState.loginDialog ? "show" : ""}`}>
         <form className="task-form">
           <div className="form">
             <img
@@ -147,19 +128,12 @@ function App() {
               onClick={() => closeDialog(dialogRef3, "loginDialog")}
               alt="Close"
             />
-            <strong id="formname">Log in</strong> <br />
-            <br />
+            <strong id="formName">Log in</strong> <br />
             <label className="formLabel">Login</label>
-            <input type="text" name="name" required />
-            <br />
-            <br />
+            <input type="text" name="name" />
             <label className="formLabel">Password</label>
-            <input type="password" name="password" required />
-            <br />
-            <br />
+            <input type="password" name="password" />
             <label className="forgotPassword">Forgot password?</label>
-            <br />
-            <br />
             <button className="submitButton">Submit</button>
           </div>
         </form>
@@ -173,9 +147,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/add-task" element={<AddTaskPage />} />
-        <Route path="/register-login" element={<RegisterLoginPage />} />
-        <Route path="/login-register" element={<LoginRegisterPage />} />
       </Routes>
     </Router>
   </React.StrictMode>
