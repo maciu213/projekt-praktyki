@@ -14,6 +14,14 @@ function App() {
     loginDialog: false
   });
 
+  const [tasks, setTasks] = useState([]);
+  const [taskDetails, setTaskDetails] = useState({
+    name: "",
+    date: "",
+    notes: "",
+    category: "low"
+  });
+
   const openDialog = (dialogType) => {
     setDialogState({ ...dialogState, [dialogType]: true });
     dialogType === "taskDialog" && dialogRef.current.showModal();
@@ -24,6 +32,17 @@ function App() {
   const closeDialog = (dialogRef, dialogType) => {
     dialogRef.current.close();
     setDialogState({ ...dialogState, [dialogType]: false });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setTaskDetails({ ...taskDetails, [name]: value });
+  };
+
+  const handleAddTask = () => {
+    setTasks([...tasks, taskDetails]);
+    setTaskDetails({ name: "", date: "", notes: "", category: "low" });
+    closeDialog(dialogRef, "taskDialog");
   };
 
   return (
@@ -43,14 +62,26 @@ function App() {
 
       <div className="main-content">
         <div className="header">
-          <h1>To-do-list</h1>
+          <h1><strong>To-do-list</strong></h1>
         </div>
 
         <button onClick={() => openDialog("taskDialog")} className="add">
           Add task
         </button>
 
-        <label>Add your task by clicking the button above.</label>
+        <div className="task-board">
+          {tasks.length > 0 ? (
+            tasks.map((task, index) => (
+              <div key={index} className={`task-item ${task.category}`}>
+                <div className="task-name">{task.name}</div>
+                <div className="task-date">{task.date}</div>
+                <div className="task-notes">{task.notes}</div>
+              </div>
+            ))
+          ) : (
+            <p id="addTaskText">No tasks added yet. Please add a task!</p>
+          )}
+        </div>
       </div>
 
       <footer className="footer bg-gray-800 text-white mt-auto p-1">
@@ -74,22 +105,44 @@ function App() {
               onClick={() => closeDialog(dialogRef, "taskDialog")}
               alt="Close"
             />
-            <strong id="formName">Add Task</strong> <br />
-            <label className="formLabel">Name (Required)</label>
-            <input type="text" name="name" />
-            <label className="formLabel">Date (Required)</label>
-            <input type="date" name="date" />
-            <label className="formLabel">Notes (Optional)</label>
-            <textarea name="notes" id="notes"></textarea>
-            <label className="formLabel">Category (Optional)</label>
-            <select name="category" id="category">
-              <option value="" disabled selected>Select a task</option>
-              <option>Category1</option>
-              <option>Category2</option>
-              <option>Category3</option>
-              <option>Category4</option>
-            </select>
-            <button className="submitButton">Submit</button>
+            <strong id="formName">Add Task</strong> <br /><br />
+            <label className="formLabel">Name (Required)</label><br />
+            <input 
+              type="text" 
+              name="name" 
+              value={taskDetails.name} 
+              onChange={handleInputChange} 
+            /><br />
+            <label className="formLabel">Date (Required)</label><br />
+            <input 
+              type="date" 
+              name="date" 
+              value={taskDetails.date} 
+              onChange={handleInputChange} 
+            /><br />
+            <label className="formLabel">Notes (Optional)</label><br />
+            <textarea 
+              name="notes" 
+              value={taskDetails.notes} 
+              onChange={handleInputChange} 
+            ></textarea><br />
+            <label className="formLabel">Category (Optional)</label><br />
+            <select 
+              name="category" 
+              value={taskDetails.category} 
+              onChange={handleInputChange}
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select><br /><br />
+            <button 
+              type="button" 
+              onClick={handleAddTask} 
+              className="submitButton"
+            >
+              Submit
+            </button>
           </div>
         </form>
       </dialog>
@@ -104,7 +157,7 @@ function App() {
               onClick={() => closeDialog(dialogRef2, "registerDialog")}
               alt="Close"
             />
-            <strong id="formName">Registration</strong> <br />
+            <strong id="formName">Registration</strong> <br /><br />
             <label className="formLabel">Login</label>
             <input type="text" name="name" />
             <label className="formLabel">Password</label>
@@ -112,7 +165,7 @@ function App() {
             <label className="formLabel">Re-enter password</label>
             <input type="password" name="password" />
             <label className="formLabel">E-mail</label>
-            <input type="email" name="email" />
+            <input type="email" name="email" /><br /><br />
             <button className="submitButton">Submit</button>
           </div>
         </form>
@@ -128,12 +181,12 @@ function App() {
               onClick={() => closeDialog(dialogRef3, "loginDialog")}
               alt="Close"
             />
-            <strong id="formName">Log in</strong> <br />
+            <strong id="formName">Log in</strong> <br /><br />
             <label className="formLabel">Login</label>
             <input type="text" name="name" />
             <label className="formLabel">Password</label>
-            <input type="password" name="password" />
-            <label className="forgotPassword">Forgot password?</label>
+            <input type="password" name="password" /><br /><br />
+            <label className="forgotPassword">Forgot password?</label><br /><br />
             <button className="submitButton">Submit</button>
           </div>
         </form>

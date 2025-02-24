@@ -2,8 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --primary-color: #1E90FF;
+    --secondary-color: #0066CC;
+    --bg-light: #F4F4F4;
+    --bg-dark: #333333;
+    --text-light: #FFFFFF;
+    --text-dark: #333333;
+    --low-color: #28a745; /* Green for Low */
+    --medium-color: #ffc107; /* Yellow for Medium */
+    --high-color: #dc3545; /* Red for High */
+}
+
 .sidebar {
-    @apply w-64 h-screen bg-gray-800 text-white p-5 shadow-lg fixed transition-transform duration-300 ease-in-out;
+    @apply w-64 h-screen bg-primary-color text-white p-5 shadow-2xl fixed transition-transform duration-300 ease-in-out;
 }
 
 .sidebar-title {
@@ -15,71 +27,94 @@
 }
 
 .sidebar-item {
-    @apply block p-2 rounded transition-all duration-300 ease-in-out hover:bg-gray-600;
+    @apply block p-2 rounded transition-all duration-300 ease-in-out hover:bg-gray-600 cursor-pointer;
 }
 
 .main-content {
-    @apply flex-1 ml-64 flex flex-col items-center p-5 transition-all;
+    @apply flex-1 ml-64 flex flex-col items-center p-5 transition-all bg-bg-light;
 }
 
 .header {
-    @apply bg-gray-800 min-w-full p-6 text-white font-sans text-center rounded-lg shadow-lg;
+    @apply w-full p-6 text-black font-sans text-center rounded-lg shadow-xl text-lg;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
 }
 
 .add {
-    @apply w-fit bg-gray-700 text-white rounded-full p-4 shadow-lg transition duration-300 ease-out cursor-pointer mt-5 mb-24;
+    @apply bg-primary-color text-white rounded-full py-2 px-4 text-sm shadow-xl transition duration-300 ease-out cursor-pointer mt-24 mb-5;
+    width: fit-content; /* Makes the button less wide */
+    min-width: 120px; /* Ensures it's not too small */
 }
 
 .add:hover {
-    @apply bg-gray-400 shadow-inner;
+    @apply bg-blue-700 shadow-inner;
 }
 
-table {
-    @apply w-full my-12 border-collapse bg-white text-center font-sans text-xl mt-5 transition ease-out duration-1000;
+
+.task-board {
+    @apply flex flex-wrap gap-4 w-full mt-5;
 }
 
-th, td {
-    @apply p-3 text-center border border-gray-300;
+.task-column {
+    @apply bg-gray-200 p-4 rounded-lg flex-1 min-w-[200px] max-w-[300px] shadow-lg;
 }
 
-th:hover {
-    @apply bg-gray-400;
+.task-column-title {
+    @apply text-xl font-semibold text-gray-800 mb-4;
 }
 
-.flex {
-    backdrop-filter: blur(var(--blur-lg));
+.task-item {
+    @apply bg-white p-3 rounded-lg shadow-lg mb-3 transition-transform transform hover:scale-105 cursor-pointer;
 }
 
-body {
-    @apply bg-gradient-to-r from-blue-400 to-gray-400 text-white;
-    background-size: cover;
-    background-position: center;
+.task-item:hover {
+    @apply bg-gray-300;
 }
 
-.background-container {
-    @apply bg-cover bg-center bg-fixed h-screen w-full flex justify-center items-center;
-    background-image: url("blurred_site.png");
+.task-item .task-name {
+    @apply font-bold mb-2; /* Make the task name bold and at the top */
+}
+
+.task-item.low .task-name {
+    color: var(--low-color); /* Green for Low */
+}
+
+.task-item.medium .task-name {
+    color: var(--medium-color); /* Yellow for Medium */
+}
+
+.task-item.high .task-name {
+    color: var(--high-color); /* Red for High */
+}
+
+/* Smaller font size & gray color for notes */
+.task-notes {
+    @apply text-sm text-gray-500;
 }
 
 .task-form {
-    @apply w-full max-w-lg p-6 rounded-lg flex flex-col items-center shadow-2xl text-center transition-transform duration-300 ease-in-out;
+    @apply w-full max-w-lg p-6 rounded-lg flex flex-col items-center shadow-2xl text-center transition-all duration-500 ease-in-out;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--text-dark);
 }
 
-input,
-textarea {
-    @apply w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ease-in-out duration-200;
+input, textarea {
+    @apply w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-color transition-all duration-200;
+    background-color: #fff;
+    color: var(--text-dark);
 }
 
 button {
-    @apply w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-400 transition duration-200;
+    @apply w-full p-3 bg-secondary-color text-white rounded-md hover:bg-blue-400 transition duration-200;
 }
 
 .submitButton {
-    @apply bg-gray-700;
+    @apply bg-primary-color;
 }
 
 .forgotPassword {
     @apply underline text-sm;
+    color: var(--primary-color);
 }
 
 ::backdrop {
@@ -88,23 +123,36 @@ button {
 }
 
 .closeIcon {
-    @apply w-6 transition-transform duration-300 ease-in-out transform hover:scale-110 active:scale-90;
+    @apply w-6 text-black transition-transform duration-300 ease-in-out transform hover:scale-110 active:scale-90;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
 }
 
 .dialogForm {
     @apply opacity-0 transform scale-95 transition-opacity transition-transform duration-300 ease-in-out rounded-lg;
+    background-color: rgba(255, 255, 255, 0.95);
 }
 
 .dialogForm.show {
     @apply opacity-100 transform scale-100;
 }
 
+.dialogForm .form {
+    @apply transition-all duration-500 ease-in-out;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--text-dark);
+    border-radius: 10px;
+    padding: 20px;
+}
+
 .footer {
-    @apply bg-gray-800 text-white py-2 mt-auto;
+    @apply bg-bg-dark text-white py-2 mt-auto flex justify-center items-center pl-64;
 }
 
 .footer-content {
-    @apply max-w-screen-xl mx-auto text-center text-sm;
+    @apply text-center text-sm;
 }
 
 .footer-links a {
@@ -112,9 +160,27 @@ button {
 }
 
 .footer p {
-    @apply text-xs;
+    @apply text-sm;
 }
 
+#formName {
+    @apply text-lg font-bold mb-4 mt-6;
+}
+
+.formLabel {
+    @apply text-sm;
+}
+
+#addTaskText {
+    @apply text-center text-gray-600 text-lg mt-10;
+    width: 100%; /* Makes sure it takes the full width */
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+}
+
+
+/* Responsive Design */
 @media (max-width: 1024px) {
     .sidebar {
         @apply w-52;
@@ -127,16 +193,23 @@ button {
 
 @media (max-width: 768px) {
     .sidebar {
-        @apply w-0 overflow-hidden fixed;
-        transform: translateX(-100%);
+        @apply hidden fixed;
     }
 
     .sidebar.open {
-        @apply w-64 transform translate-x-0;
+        @apply w-64 absolute left-0;
     }
 
     .main-content {
         @apply ml-0;
+    }
+
+    .task-board {
+        @apply block;
+    }
+
+    .task-column {
+        @apply w-full mb-4;
     }
 
     table {
@@ -145,6 +218,10 @@ button {
 
     .closeIcon {
         @apply w-8;
+    }
+
+    .footer {
+        @apply pl-0 text-center;
     }
 }
 
@@ -159,5 +236,15 @@ button {
 
     .add {
         @apply p-3 text-sm;
+    }
+}
+
+@media (max-width: 320px) {
+    .sidebar-item {
+        @apply text-sm;
+    }
+
+    .add {
+        @apply p-3 text-xs;
     }
 }
