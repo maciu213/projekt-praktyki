@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./style.css";
@@ -11,7 +11,7 @@ function App() {
   const [dialogState, setDialogState] = useState({
     taskDialog: false,
     registerDialog: false,
-    loginDialog: false
+    loginDialog: false,
   });
 
   const [tasks, setTasks] = useState([]);
@@ -19,14 +19,29 @@ function App() {
     name: "",
     date: "",
     notes: "",
-    category: "low"
+    category: "low",
   });
+
+  // Load tasks from localStorage when the app starts
+  useEffect(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    if (savedTasks) {
+      setTasks(JSON.parse(savedTasks));
+    }
+  }, []);
+
+  // Save tasks to localStorage whenever they change
+  useEffect(() => {
+    if (tasks.length > 0) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [tasks]);
 
   const openDialog = (dialogType) => {
     setDialogState({ ...dialogState, [dialogType]: true });
-    dialogType === "taskDialog" && dialogRef.current.showModal();
-    dialogType === "registerDialog" && dialogRef2.current.showModal();
-    dialogType === "loginDialog" && dialogRef3.current.showModal();
+    if (dialogType === "taskDialog") dialogRef.current.showModal();
+    if (dialogType === "registerDialog") dialogRef2.current.showModal();
+    if (dialogType === "loginDialog") dialogRef3.current.showModal();
   };
 
   const closeDialog = (dialogRef, dialogType) => {
@@ -40,9 +55,24 @@ function App() {
   };
 
   const handleAddTask = () => {
-    setTasks([...tasks, taskDetails]);
+    if (!taskDetails.name || !taskDetails.date) {
+      alert("Name and Date are required!");
+      return;
+    }
+
+    const newTasks = [...tasks, taskDetails];
+    setTasks(newTasks);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
+
     setTaskDetails({ name: "", date: "", notes: "", category: "low" });
     closeDialog(dialogRef, "taskDialog");
+  };
+
+  // Function to remove a task by index
+  const handleRemoveTask = (index) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
   };
 
   return (
@@ -75,7 +105,13 @@ function App() {
               <div key={index} className={`task-item ${task.category}`}>
                 <div className="task-name">{task.name}</div>
                 <div className="task-date">{task.date}</div>
-                <div className="task-notes">{task.notes}</div>
+                <div className="task-notes">{task.notes}</div><br></br>
+                <button
+                  onClick={() => handleRemoveTask(index)}
+                  className="remove-button"
+                >
+                  Remove Task
+                </button>
               </div>
             ))
           ) : (
@@ -84,14 +120,9 @@ function App() {
         </div>
       </div>
 
-      <footer className="footer bg-gray-800 text-white mt-auto p-1">
-        <div className="footer-content max-w-screen-xl mx-auto text-center">
+      <footer className="footer">
+        <div className="footer-content">
           <p>&copy; To-do list.</p>
-          <div className="footer-links mt-4">
-            <a href="/privacy-policy" className="text-blue-400 hover:underline mx-3">Privacy Policy</a>
-            <a href="/terms-of-service" className="text-blue-400 hover:underline mx-3">Terms of Service</a>
-            <a href="/contact" className="text-blue-400 hover:underline mx-3">Contact Us</a>
-          </div>
         </div>
       </footer>
 
@@ -107,87 +138,20 @@ function App() {
             />
             <strong id="formName">Add Task</strong> <br /><br />
             <label className="formLabel">Name (Required)</label><br />
-            <input 
-              type="text" 
-              name="name" 
-              value={taskDetails.name} 
-              onChange={handleInputChange} 
-            /><br />
+            <input type="text" name="name" value={taskDetails.name} onChange={handleInputChange} /><br />
             <label className="formLabel">Date (Required)</label><br />
-            <input 
-              type="date" 
-              name="date" 
-              value={taskDetails.date} 
-              onChange={handleInputChange} 
-            /><br />
+            <input type="date" name="date" value={taskDetails.date} onChange={handleInputChange} /><br />
             <label className="formLabel">Notes (Optional)</label><br />
-            <textarea 
-              name="notes" 
-              value={taskDetails.notes} 
-              onChange={handleInputChange} 
-            ></textarea><br />
+            <textarea name="notes" value={taskDetails.notes} onChange={handleInputChange}></textarea><br />
             <label className="formLabel">Category (Optional)</label><br />
-            <select 
-              name="category" 
-              value={taskDetails.category} 
-              onChange={handleInputChange}
-            >
+            <select name="category" value={taskDetails.category} onChange={handleInputChange}>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
             </select><br /><br />
-            <button 
-              type="button" 
-              onClick={handleAddTask} 
-              className="submitButton"
-            >
+            <button type="button" onClick={handleAddTask} className="submitButton">
               Submit
             </button>
-          </div>
-        </form>
-      </dialog>
-
-      {/* Register Dialog */}
-      <dialog ref={dialogRef2} className={`dialogForm ${dialogState.registerDialog ? "show" : ""}`}>
-        <form className="task-form">
-          <div className="form">
-            <img
-              src="/closeicon.png"
-              className="closeIcon"
-              onClick={() => closeDialog(dialogRef2, "registerDialog")}
-              alt="Close"
-            />
-            <strong id="formName">Registration</strong> <br /><br />
-            <label className="formLabel">Login</label>
-            <input type="text" name="name" />
-            <label className="formLabel">Password</label>
-            <input type="password" name="password" />
-            <label className="formLabel">Re-enter password</label>
-            <input type="password" name="password" />
-            <label className="formLabel">E-mail</label>
-            <input type="email" name="email" /><br /><br />
-            <button className="submitButton">Submit</button>
-          </div>
-        </form>
-      </dialog>
-
-      {/* Login Dialog */}
-      <dialog ref={dialogRef3} className={`dialogForm ${dialogState.loginDialog ? "show" : ""}`}>
-        <form className="task-form">
-          <div className="form">
-            <img
-              src="/closeicon.png"
-              className="closeIcon"
-              onClick={() => closeDialog(dialogRef3, "loginDialog")}
-              alt="Close"
-            />
-            <strong id="formName">Log in</strong> <br /><br />
-            <label className="formLabel">Login</label>
-            <input type="text" name="name" />
-            <label className="formLabel">Password</label>
-            <input type="password" name="password" /><br /><br />
-            <label className="forgotPassword">Forgot password?</label><br /><br />
-            <button className="submitButton">Submit</button>
           </div>
         </form>
       </dialog>

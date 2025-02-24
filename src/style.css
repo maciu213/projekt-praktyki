@@ -179,6 +179,17 @@ button {
     align-items: center; /* Centers vertically */
 }
 
+.remove-button{
+    background-color:#D84040;
+    font-size:13px;
+}
+
+.remove-button:hover{
+    border:2px #D84040 solid;
+    color:black;
+    background-color: white;
+}
+
 
 /* Responsive Design */
 @media (max-width: 1024px) {
