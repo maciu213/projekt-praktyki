@@ -141,10 +141,10 @@ function App() {
             <label className="formLabel">Notes (Optional)</label><br />
             <textarea name="notes" value={taskDetails.notes} onChange={handleInputChange}></textarea><br />
             <label className="formLabel">Category (Optional)</label><br />
-            <select name="category" value={taskDetails.category} onChange={handleInputChange}>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+            <select name="category" value={taskDetails.category} onChange={handleInputChange} aria-placeholder="ke">
+              <option value="low" id="lowOption">Low</option>
+              <option value="medium" id="mediumOption">Medium</option>
+              <option value="high" id="highOption">High</option>
             </select><br /><br />
             <button type="button" onClick={handleAddTask} className="submitButton">
               Submit

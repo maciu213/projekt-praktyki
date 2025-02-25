@@ -15,8 +15,10 @@
 }
 
 .sidebar {
-    @apply w-64 h-screen bg-primary-color text-white p-5 shadow-2xl fixed transition-transform duration-300 ease-in-out;
+    @apply w-64 h-screen bg-primary-color text-white p-5 fixed transition-transform duration-300 ease-in-out shadow-2xl;
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
 }
+
 
 .sidebar-title {
     @apply text-2xl font-bold mb-6;
@@ -202,6 +204,19 @@ button {
 .plus-sign{
     font-size:16px;
 }
+
+#lowOption{
+    @apply text-green-500;
+}
+
+#mediumOption{
+    @apply text-yellow-400;
+}
+
+#highOption{
+    @apply text-red-600;
+}
+
 
 
 @media (max-width: 1024px) {
