@@ -109,6 +109,13 @@ button {
 
 .submitButton {
     @apply bg-primary-color;
+    border: 2px #1E90FF solid;
+}
+
+.submitButton:hover{
+    border: 2px #1E90FF solid;
+    background-color: white;
+    color:black;
 }
 
 .forgotPassword {
