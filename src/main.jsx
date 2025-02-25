@@ -22,7 +22,6 @@ function App() {
     category: "low",
   });
 
-  // Load tasks from localStorage when the app starts
   useEffect(() => {
     const savedTasks = localStorage.getItem("tasks");
     if (savedTasks) {
@@ -30,7 +29,6 @@ function App() {
     }
   }, []);
 
-  // Save tasks to localStorage whenever they change
   useEffect(() => {
     if (tasks.length > 0) {
       localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -96,7 +94,7 @@ function App() {
         </div>
 
         <button onClick={() => openDialog("taskDialog")} className="add">
-          Add task
+          <strong>Add task</strong>
         </button>
 
         <div className="task-board">
@@ -155,6 +153,62 @@ function App() {
           </div>
         </form>
       </dialog>
+
+            {/* Register Dialog */}
+      <dialog ref={dialogRef2} className={`dialogForm ${dialogState.registerDialog ? "show" : ""}`}>
+        <form className="task-form">
+          <div className="form">
+            <img
+              src="/closeicon.png"
+              className="closeIcon"
+              onClick={() => closeDialog(dialogRef2, "registerDialog")}
+              alt="Close"
+            />
+            <strong id="formName">Registration</strong> <br /><br />
+            
+            <label className="formLabel">Login</label>
+            <input type="text" name="name" />
+
+            <label className="formLabel">Password</label>
+            <input type="password" name="password" />
+
+            <label className="formLabel">Re-enter password</label>
+            <input type="password" name="confirmPassword" />
+
+            <label className="formLabel">E-mail</label>
+            <input type="email" name="email" /><br /><br />
+
+            <button className="submitButton">Submit</button>
+          </div>
+        </form>
+      </dialog>
+
+
+            {/* Login Dialog */}
+        <dialog ref={dialogRef3} className={`dialogForm ${dialogState.loginDialog ? "show" : ""}`}>
+          <form className="task-form">
+            <div className="form">
+              <img
+                src="/closeicon.png"
+                className="closeIcon"
+                onClick={() => closeDialog(dialogRef3, "loginDialog")}
+                alt="Close"
+              />
+              <strong id="formName">Log in</strong> <br /><br />
+              
+              <label className="formLabel">Login</label>
+              <input type="text" name="name" />
+
+              <label className="formLabel">Password</label>
+              <input type="password" name="password" /><br></br><br></br>
+
+              <label className="forgotPassword">Forgot password?</label><br /><br />
+              
+              <button className="submitButton">Submit</button>
+            </div>
+          </form>
+        </dialog>
+
     </div>
   );
 }

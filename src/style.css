@@ -42,8 +42,8 @@
 
 .add {
     @apply bg-primary-color text-white rounded-full py-2 px-4 text-sm shadow-xl transition duration-300 ease-out cursor-pointer mt-24 mb-5;
-    width: fit-content; /* Makes the button less wide */
-    min-width: 120px; /* Ensures it's not too small */
+    width: fit-content;
+    min-width: 120px;
 }
 
 .add:hover {
@@ -68,26 +68,25 @@
 }
 
 .task-item:hover {
-    @apply bg-gray-300;
+    @apply bg-gray-50;
 }
 
 .task-item .task-name {
-    @apply font-bold mb-2; /* Make the task name bold and at the top */
+    @apply font-bold mb-2;
 }
 
 .task-item.low .task-name {
-    color: var(--low-color); /* Green for Low */
+    color: var(--low-color);
 }
 
 .task-item.medium .task-name {
-    color: var(--medium-color); /* Yellow for Medium */
+    color: var(--medium-color);
 }
 
 .task-item.high .task-name {
-    color: var(--high-color); /* Red for High */
+    color: var(--high-color);
 }
 
-/* Smaller font size & gray color for notes */
 .task-notes {
     @apply text-sm text-gray-500;
 }
@@ -173,15 +172,16 @@ button {
 
 #addTaskText {
     @apply text-center text-gray-600 text-lg mt-10;
-    width: 100%; /* Makes sure it takes the full width */
+    width: 100%;
     display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
+    justify-content: center;
+    align-items: center;
 }
 
 .remove-button{
     background-color:#D84040;
     font-size:13px;
+    border: 2px #D84040 solid;
 }
 
 .remove-button:hover{
@@ -191,7 +191,6 @@ button {
 }
 
 
-/* Responsive Design */
 @media (max-width: 1024px) {
     .sidebar {
         @apply w-52;
