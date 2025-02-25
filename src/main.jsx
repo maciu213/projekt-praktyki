@@ -66,7 +66,6 @@ function App() {
     closeDialog(dialogRef, "taskDialog");
   };
 
-  // Function to remove a task by index
   const handleRemoveTask = (index) => {
     const updatedTasks = tasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
@@ -94,7 +93,7 @@ function App() {
         </div>
 
         <button onClick={() => openDialog("taskDialog")} className="add">
-          <strong>Add task</strong>
+          <strong><span className="plus-sign">+</span> Create task</strong>
         </button>
 
         <div className="task-board">

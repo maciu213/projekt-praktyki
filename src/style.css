@@ -41,9 +41,11 @@
 }
 
 .add {
-    @apply bg-primary-color text-white rounded-full py-2 px-4 text-sm shadow-xl transition duration-300 ease-out cursor-pointer mt-24 mb-5;
+    @apply bg-primary-color text-white rounded-full py-4 px-4 text-sm shadow-xl transition duration-300 ease-out cursor-pointer mt-24 mb-5 flex items-center justify-center;;
     width: fit-content;
     min-width: 120px;
+    float:right;
+    font-size:14px;
 }
 
 .add:hover {
@@ -113,7 +115,7 @@ button {
 }
 
 .submitButton:hover{
-    border: 2px #1E90FF solid;
+    border: 2px #0066CC solid;
     background-color: white;
     color:black;
 }
@@ -195,6 +197,10 @@ button {
     border:2px #D84040 solid;
     color:black;
     background-color: white;
+}
+
+.plus-sign{
+    font-size:16px;
 }
 
 
