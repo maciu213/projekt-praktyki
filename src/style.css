@@ -19,7 +19,6 @@
     box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
 }
 
-
 .sidebar-title {
     @apply text-2xl font-bold mb-6;
 }
@@ -53,7 +52,6 @@
 .add:hover {
     @apply bg-blue-700 shadow-inner;
 }
-
 
 .task-board {
     @apply flex flex-wrap gap-4 w-full mt-5;
@@ -142,7 +140,7 @@ button {
 
 .dialogForm {
     @apply opacity-0 transform scale-95 transition-opacity transition-transform duration-300 ease-in-out rounded-lg;
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(255, 255, 255, 0.95); /* Ensure background color matches form */
 }
 
 .dialogForm.show {
@@ -151,34 +149,10 @@ button {
 
 .dialogForm .form {
     @apply transition-all duration-500 ease-in-out;
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(255, 255, 255, 0.95); /* Match background with form */
     color: var(--text-dark);
     border-radius: 10px;
     padding: 20px;
-}
-
-.footer {
-    @apply bg-bg-dark text-white py-2 mt-auto flex justify-center items-center pl-64;
-}
-
-.footer-content {
-    @apply text-center text-sm;
-}
-
-.footer-links a {
-    @apply text-blue-400 hover:underline mx-2;
-}
-
-.footer p {
-    @apply text-sm;
-}
-
-#formName {
-    @apply text-lg font-bold mb-4 mt-6;
-}
-
-.formLabel {
-    @apply text-sm;
 }
 
 #addTaskText {
@@ -217,7 +191,25 @@ button {
     @apply text-red-600;
 }
 
+.footer {
+    @apply bg-bg-dark text-white py-2 mt-auto flex justify-center items-center pl-64;
+}
 
+.footer-content {
+    @apply text-center text-sm;
+}
+
+.footer-links a {
+    @apply text-blue-400 hover:underline mx-2;
+}
+
+.footer p {
+    @apply text-sm;
+}
+
+.formName{
+    text-align: center;
+}
 
 @media (max-width: 1024px) {
     .sidebar {

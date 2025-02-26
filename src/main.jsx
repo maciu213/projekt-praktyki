@@ -12,6 +12,7 @@ function App() {
     taskDialog: false,
     registerDialog: false,
     loginDialog: false,
+    taskDetailsDialog: false, // State for task details dialog
   });
 
   const [tasks, setTasks] = useState([]);
@@ -22,6 +23,7 @@ function App() {
     notes: "",
     category: "low",
   });
+  const [selectedTask, setSelectedTask] = useState(null); // State for selected task
 
   useEffect(() => {
     const savedTasks = localStorage.getItem("tasks");
@@ -54,7 +56,7 @@ function App() {
   };
 
   const handleAddTask = () => {
-    if (!taskDetails.name || !taskDetails.startdate|| !taskDetails.enddate) {
+    if (!taskDetails.name || !taskDetails.startdate || !taskDetails.enddate) {
       alert("Name and Date are required!");
       return;
     }
@@ -63,7 +65,7 @@ function App() {
     setTasks(newTasks);
     localStorage.setItem("tasks", JSON.stringify(newTasks));
 
-    setTaskDetails({ name: "", startdate: "",enddate: "",  notes: "", category: "low" });
+    setTaskDetails({ name: "", startdate: "", enddate: "", notes: "", category: "low" });
     closeDialog(dialogRef, "taskDialog");
   };
 
@@ -71,6 +73,12 @@ function App() {
     const updatedTasks = tasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
     localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  };
+
+  const openTaskDetailsDialog = (task) => {
+    setSelectedTask(task);
+    setDialogState({ ...dialogState, taskDetailsDialog: true });
+    dialogRef3.current.showModal();
   };
 
   return (
@@ -100,13 +108,13 @@ function App() {
         <div className="task-board">
           {tasks.length > 0 ? (
             tasks.map((task, index) => (
-              <div key={index} className={`task-item ${task.category}`}>
+              <div key={index} className={`task-item ${task.category}`} onClick={() => openTaskDetailsDialog(task)}>
                 <div className="task-name">{task.name}</div>
-                <div className="task-startdate"> <p>Start: </p>{task.startdate}</div>
+                <div className="task-startdate"><p>Start: </p>{task.startdate}</div>
                 <div className="task-enddate"><p>End: </p>{task.enddate}</div>
-                <div className="task-notes">{task.notes}</div><br></br>
+                <div className="task-notes">{task.notes}</div><br />
                 <button
-                  onClick={() => handleRemoveTask(index)}
+                  onClick={(e) => { e.stopPropagation(); handleRemoveTask(index); }}
                   className="remove-button"
                 >
                   Remove Task
@@ -145,10 +153,10 @@ function App() {
             <label className="formLabel">Notes (Optional)</label><br />
             <textarea name="notes" value={taskDetails.notes} onChange={handleInputChange}></textarea><br />
             <label className="formLabel">Priority (Optional)</label><br />
-            <select name="category" value={taskDetails.category} onChange={handleInputChange} aria-placeholder="ke">
-              <option value="low" id="lowOption">Low</option>
-              <option value="medium" id="mediumOption">Medium</option>
-              <option value="high" id="highOption">High</option>
+            <select name="category" value={taskDetails.category} onChange={handleInputChange}>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
             </select><br /><br />
             <button type="button" onClick={handleAddTask} className="submitButton">
               Submit
@@ -157,7 +165,31 @@ function App() {
         </form>
       </dialog>
 
-            {/* Register Dialog */}
+      {/* Task Details Dialog */}
+      {selectedTask && (
+        <dialog ref={dialogRef3} className={`dialogForm ${dialogState.taskDetailsDialog ? "show" : ""}`}>
+          <div className="modal-overlay">
+            <div className="modal">
+              <img
+                src="/closeicon.png"
+                className="closeIcon"
+                onClick={() => closeDialog(dialogRef3, "taskDetailsDialog")}
+                alt="Close"
+              />
+              <strong id="formName">Task Details</strong>
+              <div className="task-details-content">
+                <p><strong>Name:</strong> {selectedTask.name}</p>
+                <p><strong>Start Date:</strong> {selectedTask.startdate}</p>
+                <p><strong>End Date:</strong> {selectedTask.enddate}</p>
+                <p><strong>Notes:</strong> {selectedTask.notes}</p>
+                <p><strong>Priority:</strong> {selectedTask.category}</p>
+              </div>
+            </div>
+          </div>
+        </dialog>
+      )}
+
+      {/* Register Dialog */}
       <dialog ref={dialogRef2} className={`dialogForm ${dialogState.registerDialog ? "show" : ""}`}>
         <form className="task-form">
           <div className="form">
@@ -168,50 +200,39 @@ function App() {
               alt="Close"
             />
             <strong id="formName">Registration</strong> <br /><br />
-            
             <label className="formLabel">Login</label>
             <input type="text" name="name" />
-
             <label className="formLabel">Password</label>
             <input type="password" name="password" />
-
             <label className="formLabel">Re-enter password</label>
             <input type="password" name="confirmPassword" />
-
             <label className="formLabel">E-mail</label>
             <input type="email" name="email" /><br /><br />
-
             <button className="submitButton">Submit</button>
           </div>
         </form>
       </dialog>
 
-
-            {/* Login Dialog */}
-        <dialog ref={dialogRef3} className={`dialogForm ${dialogState.loginDialog ? "show" : ""}`}>
-          <form className="task-form">
-            <div className="form">
-              <img
-                src="/closeicon.png"
-                className="closeIcon"
-                onClick={() => closeDialog(dialogRef3, "loginDialog")}
-                alt="Close"
-              />
-              <strong id="formName">Log in</strong> <br /><br />
-              
-              <label className="formLabel">Login</label>
-              <input type="text" name="name" />
-
-              <label className="formLabel">Password</label>
-              <input type="password" name="password" /><br></br><br></br>
-
-              <label className="forgotPassword">Forgot password?</label><br /><br />
-              
-              <button className="submitButton">Submit</button>
-            </div>
-          </form>
-        </dialog>
-
+      {/* Login Dialog */}
+      <dialog ref={dialogRef3} className={`dialogForm ${dialogState.loginDialog ? "show" : ""}`}>
+        <form className="task-form">
+          <div className="form">
+            <img
+              src="/closeicon.png"
+              className="closeIcon"
+              onClick={() => closeDialog(dialogRef3, "loginDialog")}
+              alt="Close"
+            />
+            <strong id="formName">Log in</strong> <br /><br />
+            <label className="formLabel">Login</label>
+            <input type="text" name="name" />
+            <label className="formLabel">Password</label>
+            <input type="password" name="password" /><br /><br />
+            <label className="forgotPassword">Forgot password?</label><br /><br />
+            <button className="submitButton">Submit</button>
+          </div>
+        </form>
+      </dialog>
     </div>
   );
 }
