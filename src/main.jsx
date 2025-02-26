@@ -136,11 +136,13 @@ function App() {
             <strong id="formName">Add Task</strong> <br /><br />
             <label className="formLabel">Name (Required)</label><br />
             <input type="text" name="name" value={taskDetails.name} onChange={handleInputChange} /><br />
-            <label className="formLabel">Date (Required)</label><br />
+            <label className="formLabel">Start (Required)</label><br />
+            <input type="date" name="date" value={taskDetails.date} onChange={handleInputChange} /><br />
+            <label className="formLabel">End (Required)</label><br />
             <input type="date" name="date" value={taskDetails.date} onChange={handleInputChange} /><br />
             <label className="formLabel">Notes (Optional)</label><br />
             <textarea name="notes" value={taskDetails.notes} onChange={handleInputChange}></textarea><br />
-            <label className="formLabel">Category (Optional)</label><br />
+            <label className="formLabel">Priority (Optional)</label><br />
             <select name="category" value={taskDetails.category} onChange={handleInputChange} aria-placeholder="ke">
               <option value="low" id="lowOption">Low</option>
               <option value="medium" id="mediumOption">Medium</option>
