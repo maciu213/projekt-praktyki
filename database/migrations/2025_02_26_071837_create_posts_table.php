@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->enum('priority', ['low', 'medium', 'high']); // 3-tier priority
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

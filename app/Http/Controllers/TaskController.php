@@ -28,6 +28,7 @@ class TaskController extends Controller
             'start_date' => $validated['start_date'],
             'end_date' => $validated['end_date'],
             'priority' => $validated['priority'],
+            'user_id' => auth()->id(), // Assign user_id here
         ]);
 
         // Return response
