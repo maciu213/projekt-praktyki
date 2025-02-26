@@ -17,7 +17,8 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [taskDetails, setTaskDetails] = useState({
     name: "",
-    date: "",
+    startdate: "",
+    enddate: "",
     notes: "",
     category: "low",
   });
@@ -53,7 +54,7 @@ function App() {
   };
 
   const handleAddTask = () => {
-    if (!taskDetails.name || !taskDetails.date) {
+    if (!taskDetails.name || !taskDetails.startdate|| !taskDetails.enddate) {
       alert("Name and Date are required!");
       return;
     }
@@ -62,7 +63,7 @@ function App() {
     setTasks(newTasks);
     localStorage.setItem("tasks", JSON.stringify(newTasks));
 
-    setTaskDetails({ name: "", date: "", notes: "", category: "low" });
+    setTaskDetails({ name: "", startdate: "",enddate: "",  notes: "", category: "low" });
     closeDialog(dialogRef, "taskDialog");
   };
 
@@ -101,7 +102,8 @@ function App() {
             tasks.map((task, index) => (
               <div key={index} className={`task-item ${task.category}`}>
                 <div className="task-name">{task.name}</div>
-                <div className="task-date">{task.date}</div>
+                <div className="task-startdate"> <p>Start: </p>{task.startdate}</div>
+                <div className="task-enddate"><p>End: </p>{task.enddate}</div>
                 <div className="task-notes">{task.notes}</div><br></br>
                 <button
                   onClick={() => handleRemoveTask(index)}
@@ -137,9 +139,9 @@ function App() {
             <label className="formLabel">Name (Required)</label><br />
             <input type="text" name="name" value={taskDetails.name} onChange={handleInputChange} /><br />
             <label className="formLabel">Start (Required)</label><br />
-            <input type="date" name="date" value={taskDetails.date} onChange={handleInputChange} /><br />
+            <input type="date" name="startdate" value={taskDetails.startdate} onChange={handleInputChange} /><br />
             <label className="formLabel">End (Required)</label><br />
-            <input type="date" name="date" value={taskDetails.date} onChange={handleInputChange} /><br />
+            <input type="date" name="enddate" value={taskDetails.enddate} onChange={handleInputChange} /><br />
             <label className="formLabel">Notes (Optional)</label><br />
             <textarea name="notes" value={taskDetails.notes} onChange={handleInputChange}></textarea><br />
             <label className="formLabel">Priority (Optional)</label><br />
