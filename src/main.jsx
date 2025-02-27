@@ -92,7 +92,12 @@ function App() {
           <li className="sidebar-item" onClick={() => openDialog("loginDialog")}>
             Log in
           </li>
-          <li className="sidebar-item">Tasks</li>
+          <li className="sidebar-item">
+            About us
+          </li>
+          <li className="sidebar-item">
+            Contact us
+          </li>
         </ul>
       </div>
 
@@ -168,24 +173,27 @@ function App() {
       {/* Task Details Dialog */}
       {selectedTask && (
         <dialog ref={dialogRef3} className={`dialogForm ${dialogState.taskDetailsDialog ? "show" : ""}`}>
-          <div className="modal-overlay">
-            <div className="modal">
-              <img
-                src="/closeicon.png"
-                className="closeIcon"
-                onClick={() => closeDialog(dialogRef3, "taskDetailsDialog")}
-                alt="Close"
-              />
-              <strong id="formName">Task Details</strong>
-              <div className="task-details-content">
-                <p><strong>Name:</strong> {selectedTask.name}</p>
-                <p><strong>Start Date:</strong> {selectedTask.startdate}</p>
-                <p><strong>End Date:</strong> {selectedTask.enddate}</p>
-                <p><strong>Notes:</strong> {selectedTask.notes}</p>
-                <p><strong>Priority:</strong> {selectedTask.category}</p>
-              </div>
-            </div>
+          <form className="task-form">
+          <div className="form">
+            <img
+              src="/closeicon.png"
+              className="closeIcon"
+              onClick={() => closeDialog(dialogRef3, "registerDialog")}
+              alt="Close"
+            />
+            <strong id="formName">Task info</strong> <br /><br />
+            <strong>Name: </strong><br />
+            <label className="formLabel">{selectedTask.name}</label><br />
+            <strong>Start: </strong><br />
+            <label className="formLabel">{selectedTask.startdate}</label><br />
+            <strong>End: </strong><br />
+            <label className="formLabel">{selectedTask.enddate}</label><br />
+            <strong>Notes: </strong><br />
+            <label className="formLabel">{selectedTask.notes}</label><br />
+            <strong>Priority: </strong><br />
+            <label className="formLabel">{selectedTask.category}</label>
           </div>
+        </form>
         </dialog>
       )}
 

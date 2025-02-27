@@ -147,7 +147,7 @@ button {
     @apply opacity-100 transform scale-100;
 }
 
-.dialogForm .form {
+.form {
     @apply transition-all duration-500 ease-in-out;
     background-color: rgba(255, 255, 255, 0.95); /* Match background with form */
     color: var(--text-dark);
@@ -155,6 +155,23 @@ button {
     padding: 20px;
 }
 
+.dialogForm {
+    @apply opacity-0 transform scale-95 transition-opacity transition-transform duration-300 ease-in-out rounded-lg;
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.dialogForm.show {
+    @apply opacity-100 transform scale-100;
+}
+
+
+.form {
+    @apply transition-all duration-500 ease-in-out;
+    background-color: rgba(255, 255, 255, 0.95); /* Match background with form */
+    color: var(--text-dark);
+    border-radius: 10px;
+    padding: 20px;
+}
 #addTaskText {
     @apply text-center text-gray-600 text-lg mt-10;
     width: 100%;
