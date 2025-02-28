@@ -9,9 +9,9 @@
     --bg-dark: #333333;
     --text-light: #FFFFFF;
     --text-dark: #333333;
-    --low-color: #28a745; /* Green for Low */
-    --medium-color: #ffc107; /* Yellow for Medium */
-    --high-color: #dc3545; /* Red for High */
+    --low-color: #28a745;
+    --medium-color: #ffc107;
+    --high-color: #dc3545;
 }
 
 .sidebar {
@@ -140,7 +140,7 @@ button {
 
 .dialogForm {
     @apply opacity-0 transform scale-95 transition-opacity transition-transform duration-300 ease-in-out rounded-lg;
-    background-color: rgba(255, 255, 255, 0.95); /* Ensure background color matches form */
+    background-color: rgba(255, 255, 255, 0.95);
 }
 
 .dialogForm.show {
@@ -149,7 +149,7 @@ button {
 
 .form {
     @apply transition-all duration-500 ease-in-out;
-    background-color: rgba(255, 255, 255, 0.95); /* Match background with form */
+    background-color: rgba(255, 255, 255, 0.95);
     color: var(--text-dark);
     border-radius: 10px;
     padding: 20px;
@@ -167,7 +167,7 @@ button {
 
 .form {
     @apply transition-all duration-500 ease-in-out;
-    background-color: rgba(255, 255, 255, 0.95); /* Match background with form */
+    background-color: rgba(255, 255, 255, 0.95);
     color: var(--text-dark);
     border-radius: 10px;
     padding: 20px;
@@ -227,6 +227,82 @@ button {
 .formName{
     text-align: center;
 }
+
+.infos{
+    @apply p-5 text-gray-600 text-lg;
+}
+
+/* About Us Page Styling */
+.about-us-container {
+    @apply bg-white p-10 rounded-lg shadow-xl max-w-xl mx-auto mt-24;
+    @apply border border-gray-200;
+    position: relative;
+}
+
+.about-us-header {
+    @apply text-black py-6 px-8 rounded-t-lg text-center;
+    position: relative;
+}
+
+.about-us-header h1 {
+    @apply text-4xl font-semibold leading-tight;
+    @apply tracking-tight;
+}
+
+.close-btn {
+    @apply absolute top-4 right-4 cursor-pointer;
+    z-index: 10;
+}
+
+.close-btn img {
+    @apply w-8 h-8;
+    transition: transform 0.2s ease-in-out;
+}
+
+.close-btn:hover img {
+    @apply transform scale-110;
+}
+
+.about-us-description {
+    @apply text-lg text-gray-700 mt-8 text-center;
+    @apply font-light max-w-3xl mx-auto;
+}
+
+.filters-container {
+    @apply bg-primary-color text-white p-4 rounded-lg shadow-lg w-64;
+}
+
+.filters-title {
+    @apply text-xl font-bold mb-4 text-center;
+}
+
+.category-filter-container {
+    @apply flex flex-col items-center justify-center mb-4;
+}
+
+.category-label {
+    @apply text-lg font-medium mb-2 text-center;
+}
+
+.category-filter {
+    @apply w-48 p-2 border rounded-md bg-white shadow-md text-black text-center transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.category-filter option {
+    color: black !important;
+    background-color: white !important;
+}
+
+@media (max-width: 768px) {
+    .filters-container {
+        @apply w-full text-center;
+    }
+    
+    .category-filter {
+        @apply w-3/4;
+    }
+}
+
 
 @media (max-width: 1024px) {
     .sidebar {

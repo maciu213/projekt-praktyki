@@ -2,6 +2,9 @@ import React, { useRef, useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./style.css";
+import { Link } from "react-router-dom";
+import AboutUs from "./AboutUs";
+import ContactUs from "./ContactUs";
 
 function App() {
   const dialogRef = useRef();
@@ -12,7 +15,7 @@ function App() {
     taskDialog: false,
     registerDialog: false,
     loginDialog: false,
-    taskDetailsDialog: false, // State for task details dialog
+    taskDetailsDialog: false,
   });
 
   const [tasks, setTasks] = useState([]);
@@ -23,7 +26,13 @@ function App() {
     notes: "",
     category: "low",
   });
-  const [selectedTask, setSelectedTask] = useState(null); // State for selected task
+  const [selectedTask, setSelectedTask] = useState(null);
+
+  const [filters, setFilters] = useState({
+    category: "all", 
+    startDate: "", 
+    endDate: "", 
+  });
 
   useEffect(() => {
     const savedTasks = localStorage.getItem("tasks");
@@ -81,6 +90,21 @@ function App() {
     dialogRef3.current.showModal();
   };
 
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters({ ...filters, [name]: value });
+  };
+
+  const filteredTasks = tasks.filter((task) => {
+    const categoryMatch = filters.category === "all" || task.category === filters.category;
+
+    const startDateMatch = !filters.startDate || new Date(task.startdate) >= new Date(filters.startDate);
+
+    const endDateMatch = !filters.endDate || new Date(task.enddate) <= new Date(filters.endDate);
+
+    return categoryMatch && startDateMatch && endDateMatch;
+  });
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="sidebar">
@@ -93,12 +117,25 @@ function App() {
             Log in
           </li>
           <li className="sidebar-item">
-            About us
+            <Link to="/about">About Us</Link>
           </li>
           <li className="sidebar-item">
-            Contact us
+            <Link to="/contact">Contact Us</Link>
           </li>
-        </ul>
+        </ul>  <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+        <div className="filter-section">
+          <h3><strong>Filters</strong></h3>
+          <div className="filter-item">
+            <label className="cat">Category</label><br />
+            <select name="category" value={filters.category} onChange={handleFilterChange} className="cat">
+              <option value="all">All</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div className="main-content">
@@ -111,8 +148,8 @@ function App() {
         </button>
 
         <div className="task-board">
-          {tasks.length > 0 ? (
-            tasks.map((task, index) => (
+          {filteredTasks.length > 0 ? (
+            filteredTasks.map((task, index) => (
               <div key={index} className={`task-item ${task.category}`} onClick={() => openTaskDetailsDialog(task)}>
                 <div className="task-name">{task.name}</div>
                 <div className="task-startdate"><p>Start: </p>{task.startdate}</div>
@@ -138,7 +175,6 @@ function App() {
         </div>
       </footer>
 
-      {/* Add Task Dialog */}
       <dialog ref={dialogRef} className={`dialogForm ${dialogState.taskDialog ? "show" : ""}`}>
         <form className="task-form">
           <div className="form">
@@ -250,6 +286,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Routes>
     </Router>
   </React.StrictMode>
