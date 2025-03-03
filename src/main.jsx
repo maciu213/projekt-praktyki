@@ -10,7 +10,8 @@ import axios from "axios";
 function App() {
   const dialogRef = useRef();
   const dialogRef2 = useRef();
-  const dialogRef3 = useRef();
+  const loginDialogRef = useRef();
+  const taskDetailsDialogRef = useRef();
 
   const [dialogState, setDialogState] = useState({
     taskDialog: false,
@@ -35,6 +36,15 @@ function App() {
     endDate: "", 
   });
 
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  });
+  
+  const [error, setError] = useState(null);
+  
   useEffect(() => {
     const savedTasks = localStorage.getItem("tasks");
     if (savedTasks) {
@@ -52,7 +62,7 @@ function App() {
     setDialogState({ ...dialogState, [dialogType]: true });
     if (dialogType === "taskDialog") dialogRef.current.showModal();
     if (dialogType === "registerDialog") dialogRef2.current.showModal();
-    if (dialogType === "loginDialog") dialogRef3.current.showModal();
+    if (dialogType === "loginDialog") loginDialogRef.current.showModal();
   };
 
   const closeDialog = (dialogRef, dialogType) => {
@@ -64,6 +74,35 @@ function App() {
     const { name, value } = e.target;
     setTaskDetails({ ...taskDetails, [name]: value });
   };
+  
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      // Make the API call to the backend
+      const response = await axios.post('http://127.0.0.1:8000/api/register', formData);
+  
+      // On success, handle the response
+      alert('Registration successful!');
+  
+      // Close the dialog after successful registration
+      closeDialog(dialogRef2, "registerDialog");
+  
+      // Reset the form fields
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '', // Corrected from password_confirmation to confirmPassword
+      });
+    } catch (error) {
+      // Handle errors from the backend
+      setError(error.response?.data?.message || 'An error occurred!');
+    }
+  };
+  
+  
+  
 
   const handleAddTask = () => {
     if (!taskDetails.name || !taskDetails.startdate || !taskDetails.enddate) {
@@ -88,7 +127,7 @@ function App() {
   const openTaskDetailsDialog = (task) => {
     setSelectedTask(task);
     setDialogState({ ...dialogState, taskDetailsDialog: true });
-    dialogRef3.current.showModal();
+    taskDetailsDialogRef.current.showModal();
   };
 
   const handleFilterChange = (e) => {
@@ -176,6 +215,7 @@ function App() {
         </div>
       </footer>
 
+      {/* Task Dialog */}
       <dialog ref={dialogRef} className={`dialogForm ${dialogState.taskDialog ? "show" : ""}`}>
         <form className="task-form">
           <div className="form">
@@ -209,13 +249,13 @@ function App() {
 
       {/* Task Details Dialog */}
       {selectedTask && (
-        <dialog ref={dialogRef3} className={`dialogForm ${dialogState.taskDetailsDialog ? "show" : ""}`}>
+        <dialog ref={taskDetailsDialogRef} className={`dialogForm ${dialogState.taskDetailsDialog ? "show" : ""}`}>
           <form className="task-form">
           <div className="form">
             <img
               src="/closeicon.png"
               className="closeIcon"
-              onClick={() => closeDialog(dialogRef3, "registerDialog")}
+              onClick={() => closeDialog(taskDetailsDialogRef, "registerDialog")}
               alt="Close"
             />
             <strong id="formName">Task info</strong> <br /><br />
@@ -236,7 +276,7 @@ function App() {
 
       {/* Register Dialog */}
       <dialog ref={dialogRef2} className={`dialogForm ${dialogState.registerDialog ? "show" : ""}`}>
-        <form className="task-form">
+        <form className="task-form" onSubmit={handleRegisterSubmit}>
           <div className="form">
             <img
               src="/closeicon.png"
@@ -246,26 +286,26 @@ function App() {
             />
             <strong id="formName">Registration</strong> <br /><br />
             <label className="formLabel">Login</label>
-            <input type="text" name="name" />
+            <input type="text" name="name" onChange={handleInputChange} required/>
             <label className="formLabel">Password</label>
-            <input type="password" name="password" />
+            <input type="password" name="password" onChange={handleInputChange} required/>
             <label className="formLabel">Re-enter password</label>
-            <input type="password" name="confirmPassword" />
+            <input type="password" name="confirmPassword" onChange={handleInputChange} required/>
             <label className="formLabel">E-mail</label>
-            <input type="email" name="email" /><br /><br />
-            <button className="submitButton">Submit</button>
+            <input type="email" name="email" onChange={handleInputChange} required /><br /><br />
+            <button className="submitButton" type="submit">Submit</button>
           </div>
         </form>
       </dialog>
 
       {/* Login Dialog */}
-      <dialog ref={dialogRef3} className={`dialogForm ${dialogState.loginDialog ? "show" : ""}`}>
+      <dialog ref={loginDialogRef} className={`dialogForm ${dialogState.loginDialog ? "show" : ""}`}>
         <form className="task-form">
           <div className="form">
             <img
               src="/closeicon.png"
               className="closeIcon"
-              onClick={() => closeDialog(dialogRef3, "loginDialog")}
+              onClick={() => closeDialog(loginDialogRef, "loginDialog")}
               alt="Close"
             />
             <strong id="formName">Log in</strong> <br /><br />
@@ -282,7 +322,8 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
     <Router>
       <Routes>
