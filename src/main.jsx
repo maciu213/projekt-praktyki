@@ -161,11 +161,12 @@ function App() {
           </li>
           <li className="sidebar-item">
             <Link to="/contact">Contact Us</Link>
-          </li>
-        </ul>  <br /><br /><br /><br /><br /><br /><br /><br /><br /> 
+          </li><br /><br /><br /><br />
+          <hr />
+        </ul>  <br /><br />
 
         <div className="filter-section">
-          <h3><strong>Filters</strong></h3>
+          <h3 className="sidebar-title">Filters</h3>
           <div className="filter-item">
             <label className="priorityName">Priority</label><br />
             <select name="category" value={filters.category} onChange={handleFilterChange} className="select-dropdown">
