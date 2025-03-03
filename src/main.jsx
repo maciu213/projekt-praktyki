@@ -5,6 +5,7 @@ import "./style.css";
 import { Link } from "react-router-dom";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
+import axios from "axios";
 
 function App() {
   const dialogRef = useRef();
@@ -122,13 +123,13 @@ function App() {
           <li className="sidebar-item">
             <Link to="/contact">Contact Us</Link>
           </li>
-        </ul>  <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        </ul>  <br /><br /><br /><br /><br /><br /><br /><br /><br /> 
 
         <div className="filter-section">
           <h3><strong>Filters</strong></h3>
           <div className="filter-item">
-            <label className="cat">Category</label><br />
-            <select name="category" value={filters.category} onChange={handleFilterChange} className="cat">
+            <label className="priorityName">Priority</label><br />
+            <select name="category" value={filters.category} onChange={handleFilterChange} className="select-dropdown">
               <option value="all">All</option>
               <option value="low">Low</option>
               <option value="medium">Medium</option>

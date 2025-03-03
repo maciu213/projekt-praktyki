@@ -7,13 +7,14 @@ function AboutUs() {
     return (
         <div className="about-us-container">
             <div className="about-us-header">
-                <h1>About Us</h1>
+                <h1>Contact Us</h1>
                 <Link to="/" className="close-btn">
                     <img src={closeIcon} alt="Close" />
                 </Link>
             </div>
             <p className="about-us-description">
-                We are a dedicated team providing the best task management system. Our mission is to help teams collaborate efficiently and achieve their goals with ease.
+                Phone number: +48 123 456 789<br/><br/>
+                E-mail: ouremail@gmail.com
             </p>
         </div>
     );

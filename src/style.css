@@ -284,14 +284,14 @@ button {
     @apply text-lg font-medium mb-2 text-center;
 }
 
-.category-filter {
-    @apply w-48 p-2 border rounded-md bg-white shadow-md text-black text-center transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500;
-}
+.select-dropdown {
+    @apply bg-gray-200 text-gray-900 border border-gray-300 rounded-md px-3 py-1 outline-none focus:border-blue-500 focus:bg-gray-300;
+  }
 
-.category-filter option {
-    color: black !important;
-    background-color: white !important;
+.priorityName{
+    font-size:0.9em;
 }
+  
 
 @media (max-width: 768px) {
     .filters-container {
