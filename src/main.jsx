@@ -31,20 +31,20 @@ function App() {
   const [selectedTask, setSelectedTask] = useState(null);
 
   const [filters, setFilters] = useState({
-    category: "all", 
-    startDate: "", 
-    endDate: "", 
+    category: "all",
+    startDate: "",
+    endDate: "",
   });
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  
+
   const [error, setError] = useState(null);
-  
+
   useEffect(() => {
     const savedTasks = localStorage.getItem("tasks");
     if (savedTasks) {
@@ -74,35 +74,27 @@ function App() {
     const { name, value } = e.target;
     setTaskDetails({ ...taskDetails, [name]: value });
   };
-  
+
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      // Make the API call to the backend
-      const response = await axios.post('http://127.0.0.1:8000/api/register', formData);
-  
-      // On success, handle the response
-      alert('Registration successful!');
-  
-      // Close the dialog after successful registration
+      const response = await axios.post("http://127.0.0.1:8000/register", formData);
+
+      alert("Registration successful!");
+
       closeDialog(dialogRef2, "registerDialog");
-  
-      // Reset the form fields
+
       setFormData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '', // Corrected from password_confirmation to confirmPassword
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       });
     } catch (error) {
-      // Handle errors from the backend
-      setError(error.response?.data?.message || 'An error occurred!');
+      setError(error.response?.data?.message || "An error occurred!");
     }
   };
-  
-  
-  
 
   const handleAddTask = () => {
     if (!taskDetails.name || !taskDetails.startdate || !taskDetails.enddate) {
@@ -161,15 +153,27 @@ function App() {
           </li>
           <li className="sidebar-item">
             <Link to="/contact">Contact Us</Link>
-          </li><br /><br /><br /><br />
+          </li>
+          <br />
+          <br />
+          <br />
+          <br />
           <hr />
-        </ul>  <br /><br />
+        </ul>
+        <br />
+        <br />
 
         <div className="filter-section">
           <h3 className="sidebar-title">Filters</h3>
           <div className="filter-item">
-            <label className="priorityName">Priority</label><br />
-            <select name="category" value={filters.category} onChange={handleFilterChange} className="select-dropdown">
+            <label className="priorityName">Priority</label>
+            <br />
+            <select
+              name="category"
+              value={filters.category}
+              onChange={handleFilterChange}
+              className="select-dropdown"
+            >
               <option value="all">All</option>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -181,23 +185,41 @@ function App() {
 
       <div className="main-content">
         <div className="header">
-          <h1><strong>To-do-list</strong></h1>
+          <h1>
+            <strong>To-do-list</strong>
+          </h1>
         </div>
 
         <button onClick={() => openDialog("taskDialog")} className="add">
-          <strong><span className="plus-sign">+</span> Create task</strong>
+          <strong>
+            <span className="plus-sign">+</span> Create task
+          </strong>
         </button>
 
         <div className="task-board">
           {filteredTasks.length > 0 ? (
             filteredTasks.map((task, index) => (
-              <div key={index} className={`task-item ${task.category}`} onClick={() => openTaskDetailsDialog(task)}>
+              <div
+                key={index}
+                className={`task-item ${task.category}`}
+                onClick={() => openTaskDetailsDialog(task)}
+              >
                 <div className="task-name">{task.name}</div>
-                <div className="task-startdate"><p>Start: </p>{task.startdate}</div>
-                <div className="task-enddate"><p>End: </p>{task.enddate}</div>
-                <div className="task-notes">{task.notes}</div><br />
+                <div className="task-startdate">
+                  <p>Start: </p>
+                  {task.startdate}
+                </div>
+                <div className="task-enddate">
+                  <p>End: </p>
+                  {task.enddate}
+                </div>
+                <div className="task-notes">{task.notes}</div>
+                <br />
                 <button
-                  onClick={(e) => { e.stopPropagation(); handleRemoveTask(index); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveTask(index);
+                  }}
                   className="remove-button"
                 >
                   Remove Task
@@ -226,21 +248,57 @@ function App() {
               onClick={() => closeDialog(dialogRef, "taskDialog")}
               alt="Close"
             />
-            <strong id="formName">Add Task</strong> <br /><br />
-            <label className="formLabel">Name (Required)</label><br />
-            <input type="text" name="name" value={taskDetails.name} onChange={handleInputChange} /><br />
-            <label className="formLabel">Start (Required)</label><br />
-            <input type="date" name="startdate" value={taskDetails.startdate} onChange={handleInputChange} /><br />
-            <label className="formLabel">End (Required)</label><br />
-            <input type="date" name="enddate" value={taskDetails.enddate} onChange={handleInputChange} /><br />
-            <label className="formLabel">Notes (Optional)</label><br />
-            <textarea name="notes" value={taskDetails.notes} onChange={handleInputChange}></textarea><br />
-            <label className="formLabel">Priority (Optional)</label><br />
-            <select name="category" value={taskDetails.category} onChange={handleInputChange}>
+            <strong id="formName">Add Task</strong>
+            <br />
+            <br />
+            <label className="formLabel">Name (Required)</label>
+            <br />
+            <input
+              type="text"
+              name="name"
+              value={taskDetails.name}
+              onChange={handleInputChange}
+            />
+            <br />
+            <label className="formLabel">Start (Required)</label>
+            <br />
+            <input
+              type="date"
+              name="startdate"
+              value={taskDetails.startdate}
+              onChange={handleInputChange}
+            />
+            <br />
+            <label className="formLabel">End (Required)</label>
+            <br />
+            <input
+              type="date"
+              name="enddate"
+              value={taskDetails.enddate}
+              onChange={handleInputChange}
+            />
+            <br />
+            <label className="formLabel">Notes (Optional)</label>
+            <br />
+            <textarea
+              name="notes"
+              value={taskDetails.notes}
+              onChange={handleInputChange}
+            ></textarea>
+            <br />
+            <label className="formLabel">Priority (Optional)</label>
+            <br />
+            <select
+              name="category"
+              value={taskDetails.category}
+              onChange={handleInputChange}
+            >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
-            </select><br /><br />
+            </select>
+            <br />
+            <br />
             <button type="button" onClick={handleAddTask} className="submitButton">
               Submit
             </button>
@@ -250,28 +308,42 @@ function App() {
 
       {/* Task Details Dialog */}
       {selectedTask && (
-        <dialog ref={taskDetailsDialogRef} className={`dialogForm ${dialogState.taskDetailsDialog ? "show" : ""}`}>
+        <dialog
+          ref={taskDetailsDialogRef}
+          className={`dialogForm ${dialogState.taskDetailsDialog ? "show" : ""}`}
+        >
           <form className="task-form">
-          <div className="form">
-            <img
-              src="/closeicon.png"
-              className="closeIcon"
-              onClick={() => closeDialog(taskDetailsDialogRef, "registerDialog")}
-              alt="Close"
-            />
-            <strong id="formName">Task info</strong> <br /><br />
-            <strong>Name: </strong><br />
-            <label className="formLabel">{selectedTask.name}</label><br />
-            <strong>Start: </strong><br />
-            <label className="formLabel">{selectedTask.startdate}</label><br />
-            <strong>End: </strong><br />
-            <label className="formLabel">{selectedTask.enddate}</label><br />
-            <strong>Notes: </strong><br />
-            <label className="formLabel">{selectedTask.notes}</label><br />
-            <strong>Priority: </strong><br />
-            <label className="formLabel">{selectedTask.category}</label>
-          </div>
-        </form>
+            <div className="form">
+              <img
+                src="/closeicon.png"
+                className="closeIcon"
+                onClick={() => closeDialog(taskDetailsDialogRef, "taskDetailsDialog")}
+                alt="Close"
+              />
+              <strong id="formName">Task info</strong>
+              <br />
+              <br />
+              <strong>Name: </strong>
+              <br />
+              <label className="formLabel">{selectedTask.name}</label>
+              <br />
+              <strong>Start: </strong>
+              <br />
+              <label className="formLabel">{selectedTask.startdate}</label>
+              <br />
+              <strong>End: </strong>
+              <br />
+              <label className="formLabel">{selectedTask.enddate}</label>
+              <br />
+              <strong>Notes: </strong>
+              <br />
+              <label className="formLabel">{selectedTask.notes}</label>
+              <br />
+              <strong>Priority: </strong>
+              <br />
+              <label className="formLabel">{selectedTask.category}</label>
+            </div>
+          </form>
         </dialog>
       )}
 
@@ -285,16 +357,27 @@ function App() {
               onClick={() => closeDialog(dialogRef2, "registerDialog")}
               alt="Close"
             />
-            <strong id="formName">Registration</strong> <br /><br />
+            <strong id="formName">Registration</strong>
+            <br />
+            <br />
             <label className="formLabel">Login</label>
-            <input type="text" name="name" onChange={handleInputChange} required/>
+            <input type="text" name="name" onChange={handleInputChange} required />
             <label className="formLabel">Password</label>
-            <input type="password" name="password" onChange={handleInputChange} required/>
+            <input type="password" name="password" onChange={handleInputChange} required />
             <label className="formLabel">Re-enter password</label>
-            <input type="password" name="confirmPassword" onChange={handleInputChange} required/>
+            <input
+              type="password"
+              name="confirmPassword"
+              onChange={handleInputChange}
+              required
+            />
             <label className="formLabel">E-mail</label>
-            <input type="email" name="email" onChange={handleInputChange} required /><br /><br />
-            <button className="submitButton" type="submit">Submit</button>
+            <input type="email" name="email" onChange={handleInputChange} required />
+            <br />
+            <br />
+            <button className="submitButton" type="submit">
+              Submit
+            </button>
           </div>
         </form>
       </dialog>
@@ -309,12 +392,18 @@ function App() {
               onClick={() => closeDialog(loginDialogRef, "loginDialog")}
               alt="Close"
             />
-            <strong id="formName">Log in</strong> <br /><br />
+            <strong id="formName">Log in</strong>
+            <br />
+            <br />
             <label className="formLabel">Login</label>
             <input type="text" name="name" />
             <label className="formLabel">Password</label>
-            <input type="password" name="password" /><br /><br />
-            <label className="forgotPassword">Forgot password?</label><br /><br />
+            <input type="password" name="password" />
+            <br />
+            <br />
+            <label className="forgotPassword">Forgot password?</label>
+            <br />
+            <br />
             <button className="submitButton">Submit</button>
           </div>
         </form>
