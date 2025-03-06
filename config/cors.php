@@ -15,18 +15,15 @@ return [
     |
     */
 
-<<<<<<< HEAD
     'paths' => ['api/*', 'sanctum/csrf-cookie'], // Apply CORS to API routes
     'allowed_methods' => ['*'], // Allow all HTTP methods (GET, POST, etc.)
     'allowed_origins' => ['http://localhost:5173'], // Change to match your frontend URL
-=======
     'paths' => ['*'],
 
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:5173')],
 
->>>>>>> 87cc7b7c40ca2013b25462352acbb1ea95b347c4
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'], // Allow all headers
     'exposed_headers' => [],
