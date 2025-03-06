@@ -78,8 +78,46 @@ function App() {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
+<<<<<<< HEAD
     console.log("Sending data: ", formData);
 
+=======
+<<<<<<< HEAD
+    console.log("Submitting form data:", formData); // Debugging line
+
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/register', {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            password_confirmation: formData.password_confirmation,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        alert('Registration successful!');
+        closeDialog(dialogRef2, "registerDialog");
+
+        setFormData({
+            name: '',
+            email: '',
+            password: '',
+            password_confirmation: '',
+        });
+
+    } catch (error) {
+        setError(error.response?.data?.message || 'An error occurred!');
+        console.error("Registration error:", error.response?.data);
+    }
+};
+  
+  
+  
+=======
+>>>>>>> 000ee43dd04cc6cd014614620150dc5397ac6071
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/register", formData);
       alert("Registration successful!");
@@ -95,7 +133,12 @@ function App() {
       console.error("Error details:", error.response?.data);
       setError(error.response?.data?.message || "An error occurred!");
     }
+<<<<<<< HEAD
   }    
+=======
+  };
+>>>>>>> 8d0cbc31f66cd808f71be0f09233c7361c18f46f
+>>>>>>> 000ee43dd04cc6cd014614620150dc5397ac6071
 
   const handleAddTask = () => {
     if (!taskDetails.name || !taskDetails.startdate || !taskDetails.enddate) {
@@ -362,6 +405,16 @@ function App() {
             <br />
             <br />
             <label className="formLabel">Login</label>
+<<<<<<< HEAD
+            <input type="text" name="name" onChange={(e) => setFormData({ ...formData, name: e.target.value })} value={formData.name}/>
+            <label className="formLabel">Password</label>
+            <input type="password" name="password" onChange={(e) => setFormData({ ...formData, password: e.target.value })} value={formData.password}/>
+            <label className="formLabel">Re-enter password</label>
+            <input type="password" name="password_confirmation" onChange={(e) => setFormData({ ...formData, password_confirmation: e.target.value })} required value={formData.password_confirmation}/>
+            <label className="formLabel">E-mail</label>
+            <input type="email" name="email" onChange={(e) => setFormData({ ...formData, email: e.target.value })} value={formData.email} /><br /><br />
+            <button className="submitButton" type="submit">Submit</button>
+=======
             <input type="text" name="name" onChange={handleInputChange} required />
             <label className="formLabel">Password</label>
             <input type="password" name="password" onChange={handleInputChange} required />
@@ -379,6 +432,7 @@ function App() {
             <button className="submitButton" type="submit">
               Submit
             </button>
+>>>>>>> 8d0cbc31f66cd808f71be0f09233c7361c18f46f
           </div>
         </form>
       </dialog>
