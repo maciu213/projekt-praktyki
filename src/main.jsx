@@ -77,29 +77,37 @@ function App() {
   
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-  
+
+    console.log("Submitting form data:", formData); // Debugging line
+
     try {
-      // Make the API call to the backend
-      const response = await axios.post('http://127.0.0.1:8000/api/register', formData);
-  
-      // On success, handle the response
-      alert('Registration successful!');
-  
-      // Close the dialog after successful registration
-      closeDialog(dialogRef2, "registerDialog");
-  
-      // Reset the form fields
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '', // Corrected from password_confirmation to confirmPassword
-      });
+        const response = await axios.post('http://127.0.0.1:8000/api/register', {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            password_confirmation: formData.password_confirmation,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        alert('Registration successful!');
+        closeDialog(dialogRef2, "registerDialog");
+
+        setFormData({
+            name: '',
+            email: '',
+            password: '',
+            password_confirmation: '',
+        });
+
     } catch (error) {
-      // Handle errors from the backend
-      setError(error.response?.data?.message || 'An error occurred!');
+        setError(error.response?.data?.message || 'An error occurred!');
+        console.error("Registration error:", error.response?.data);
     }
-  };
+};
   
   
   
@@ -286,13 +294,13 @@ function App() {
             />
             <strong id="formName">Registration</strong> <br /><br />
             <label className="formLabel">Login</label>
-            <input type="text" name="name" onChange={handleInputChange} required/>
+            <input type="text" name="name" onChange={(e) => setFormData({ ...formData, name: e.target.value })} value={formData.name}/>
             <label className="formLabel">Password</label>
-            <input type="password" name="password" onChange={handleInputChange} required/>
+            <input type="password" name="password" onChange={(e) => setFormData({ ...formData, password: e.target.value })} value={formData.password}/>
             <label className="formLabel">Re-enter password</label>
-            <input type="password" name="confirmPassword" onChange={handleInputChange} required/>
+            <input type="password" name="password_confirmation" onChange={(e) => setFormData({ ...formData, password_confirmation: e.target.value })} required value={formData.password_confirmation}/>
             <label className="formLabel">E-mail</label>
-            <input type="email" name="email" onChange={handleInputChange} required /><br /><br />
+            <input type="email" name="email" onChange={(e) => setFormData({ ...formData, email: e.target.value })} value={formData.email} /><br /><br />
             <button className="submitButton" type="submit">Submit</button>
           </div>
         </form>
