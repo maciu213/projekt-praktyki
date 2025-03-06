@@ -78,13 +78,13 @@ function App() {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("Sending data: ", formData);
+
     try {
-      const response = await axios.post("http://127.0.0.1:8000/register", formData);
-
+      const response = await axios.post("http://127.0.0.1:8000/api/register", formData);
       alert("Registration successful!");
-
       closeDialog(dialogRef2, "registerDialog");
-
+    
       setFormData({
         name: "",
         email: "",
@@ -92,9 +92,10 @@ function App() {
         confirmPassword: "",
       });
     } catch (error) {
+      console.error("Error details:", error.response?.data);
       setError(error.response?.data?.message || "An error occurred!");
     }
-  };
+  }    
 
   const handleAddTask = () => {
     if (!taskDetails.name || !taskDetails.startdate || !taskDetails.enddate) {
