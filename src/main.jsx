@@ -78,14 +78,6 @@ function App() {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-    console.log("Sending data: ", formData);
-
-=======
-<<<<<<< HEAD
->>>>>>> 8448f1a47c84105cc156b7c2c635a1693454a026
     console.log("Submitting form data:", formData); // Debugging line
 
     try {
@@ -116,36 +108,6 @@ function App() {
         console.error("Registration error:", error.response?.data);
     }
 };
-  
-  
-  
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 000ee43dd04cc6cd014614620150dc5397ac6071
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/api/register", formData);
-      alert("Registration successful!");
-      closeDialog(dialogRef2, "registerDialog");
-    
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
-    } catch (error) {
-      console.error("Error details:", error.response?.data);
-      setError(error.response?.data?.message || "An error occurred!");
-    }
-<<<<<<< HEAD
-  }    
-=======
-  };
->>>>>>> 8d0cbc31f66cd808f71be0f09233c7361c18f46f
->>>>>>> 000ee43dd04cc6cd014614620150dc5397ac6071
->>>>>>> 8448f1a47c84105cc156b7c2c635a1693454a026
-
   const handleAddTask = () => {
     if (!taskDetails.name || !taskDetails.startdate || !taskDetails.enddate) {
       alert("Name and Date are required!");
