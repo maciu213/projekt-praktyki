@@ -78,14 +78,7 @@ function App() {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
     console.log("Sending data: ", formData);
-
-=======
-<<<<<<< HEAD
->>>>>>> 8448f1a47c84105cc156b7c2c635a1693454a026
     console.log("Submitting form data:", formData); // Debugging line
 
     try {
@@ -101,9 +94,13 @@ function App() {
             },
         });
 
+        // Display registration success message
         alert('Registration successful!');
+
+        // Close the dialog (assuming closeDialog is the correct function)
         closeDialog(dialogRef2, "registerDialog");
 
+        // Reset form fields
         setFormData({
             name: '',
             email: '',
@@ -112,39 +109,40 @@ function App() {
         });
 
     } catch (error) {
+        // Handle errors (e.g., validation errors)
         setError(error.response?.data?.message || 'An error occurred!');
         console.error("Registration error:", error.response?.data);
     }
 };
+
+const handleLoginSubmit = async (e) => {
+  e.preventDefault();
   
-  
-  
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 000ee43dd04cc6cd014614620150dc5397ac6071
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/api/register", formData);
-      alert("Registration successful!");
-      closeDialog(dialogRef2, "registerDialog");
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/login', loginData, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    });
+
+    // Store token in localStorage
+    localStorage.setItem('token', response.data.token);
+
+    alert('Login successful!');
     
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
-    } catch (error) {
-      console.error("Error details:", error.response?.data);
-      setError(error.response?.data?.message || "An error occurred!");
-    }
-<<<<<<< HEAD
-  }    
-=======
-  };
->>>>>>> 8d0cbc31f66cd808f71be0f09233c7361c18f46f
->>>>>>> 000ee43dd04cc6cd014614620150dc5397ac6071
->>>>>>> 8448f1a47c84105cc156b7c2c635a1693454a026
+    // Close login dialog
+    closeDialog(loginDialogRef, "loginDialog");
+    
+    // Clear login form
+    setLoginData({ email: '', password: '' });
+
+  } catch (error) {
+    alert(error.response?.data?.message || 'Login failed');
+  }
+};
+
+
 
   const handleAddTask = () => {
     if (!taskDetails.name || !taskDetails.startdate || !taskDetails.enddate) {
@@ -159,6 +157,20 @@ function App() {
     setTaskDetails({ name: "", startdate: "", enddate: "", notes: "", category: "low" });
     closeDialog(dialogRef, "taskDialog");
   };
+
+  const handleUpdateTask = (id) => {
+    // Update task logic
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, ...taskDetails } : task
+    );
+  
+    setTasks(updatedTasks);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  
+    // Close the dialog after updating
+    closeDialog(taskDetailsDialogRef, "taskDetailsDialog");
+  };
+  
 
   const handleRemoveTask = (index) => {
     const updatedTasks = tasks.filter((_, i) => i !== index);
@@ -186,6 +198,24 @@ function App() {
 
     return categoryMatch && startDateMatch && endDateMatch;
   });
+
+  const handleEditTask = (task) => {
+    // Set the selected task's details to the state so the dialog can be populated
+    setTaskDetails({
+      name: task.name,
+      startdate: task.startdate,
+      enddate: task.enddate,
+      notes: task.notes,
+      category: task.category,
+    });
+  
+    // Open the task dialog for editing
+    openDialog("taskDialog");
+  };
+  
+  
+
+  
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -290,31 +320,74 @@ function App() {
       </dialog>
 
       {/* Task Details Dialog */}
-      {selectedTask && (
-        <dialog ref={taskDetailsDialogRef} className={`dialogForm ${dialogState.taskDetailsDialog ? "show" : ""}`}>
-          <form className="task-form">
-          <div className="form">
-            <img
-              src="/closeicon.png"
-              className="closeIcon"
-              onClick={() => closeDialog(taskDetailsDialogRef, "registerDialog")}
-              alt="Close"
-            />
-            <strong id="formName">Task info</strong> <br /><br />
-            <strong>Name: </strong><br />
-            <label className="formLabel">{selectedTask.name}</label><br />
-            <strong>Start: </strong><br />
-            <label className="formLabel">{selectedTask.startdate}</label><br />
-            <strong>End: </strong><br />
-            <label className="formLabel">{selectedTask.enddate}</label><br />
-            <strong>Notes: </strong><br />
-            <label className="formLabel">{selectedTask.notes}</label><br />
-            <strong>Priority: </strong><br />
-            <label className="formLabel">{selectedTask.category}</label>
-          </div>
-        </form>
-        </dialog>
-      )}
+{selectedTask && (
+  <dialog ref={taskDetailsDialogRef} className={`dialogForm ${dialogState.taskDetailsDialog ? "show" : ""}`}>
+    <form className="task-form">
+      <div className="form">
+        <img
+          src="/closeicon.png"
+          className="closeIcon"
+          onClick={() => closeDialog(taskDetailsDialogRef, "taskDetailsDialog")}
+          alt="Close"
+        />
+        <strong id="formName">Edit Task</strong> <br /><br />
+
+        {/* Editable Fields for Task Details */}
+        <label className="formLabel">Name</label><br />
+        <input
+          type="text"
+          name="name"
+          value={taskDetails.name}
+          onChange={handleInputChange}
+        /><br />
+
+        <label className="formLabel">Start Date</label><br />
+        <input
+          type="date"
+          name="startdate"
+          value={taskDetails.startdate}
+          onChange={handleInputChange}
+        /><br />
+
+        <label className="formLabel">End Date</label><br />
+        <input
+          type="date"
+          name="enddate"
+          value={taskDetails.enddate}
+          onChange={handleInputChange}
+        /><br />
+
+        <label className="formLabel">Notes</label><br />
+        <textarea
+          name="notes"
+          value={taskDetails.notes}
+          onChange={handleInputChange}
+        ></textarea><br />
+
+        <label className="formLabel">Priority</label><br />
+        <select
+          name="category"
+          value={taskDetails.category}
+          onChange={handleInputChange}
+        >
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select><br /><br />
+
+        <button
+          type="button"
+          onClick={() => handleUpdateTask(selectedTask.id)} // Update task
+          className="submitButton"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </dialog>
+)}
+
+
 
       {/* Register Dialog */}
       <dialog ref={dialogRef2} className={`dialogForm ${dialogState.registerDialog ? "show" : ""}`}>

@@ -319,6 +319,7 @@ button {
     font-size:0.9em;
 }
 
+
 @media (max-width: 768px) {
     .filters-container {
         @apply w-full text-center;
@@ -341,12 +342,13 @@ button {
 
 @media (max-width: 768px) {
     .sidebar {
-        @apply hidden fixed;
+        @apply fixed -translate-x-full;
     }
 
     .sidebar.open {
-        @apply w-64 absolute left-0;
+        @apply translate-x-0;
     }
+
 
     .main-content {
         @apply ml-0;
