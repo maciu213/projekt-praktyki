@@ -19,14 +19,19 @@ function App() {
     loginDialog: false,
     taskDetailsDialog: false,
   });
+  const [loginDetails, setLoginDetails] = useState({
+        email: '',
+        password: '',
+        login: '',
+    });
 
   const [tasks, setTasks] = useState([]);
   const [taskDetails, setTaskDetails] = useState({
-    name: "",
-    startdate: "",
-    enddate: "",
-    notes: "",
-    category: "low",
+    name: '',
+    startdate: '',
+    enddate: '',
+    notes: '',
+    category: 'low',
   });
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -108,19 +113,69 @@ function App() {
         console.error("Registration error:", error.response?.data);
     }
 };
-  const handleAddTask = () => {
-    if (!taskDetails.name || !taskDetails.startdate || !taskDetails.enddate) {
-      alert("Name and Date are required!");
-      return;
-    }
+const handleAddTask = async (e) => {
+  e.preventDefault();
 
-    const newTasks = [...tasks, taskDetails];
-    setTasks(newTasks);
-    localStorage.setItem("tasks", JSON.stringify(newTasks));
+  const token = localStorage.getItem('auth_token');
 
-    setTaskDetails({ name: "", startdate: "", enddate: "", notes: "", category: "low" });
-    closeDialog(dialogRef, "taskDialog");
-  };
+  if (!token) {
+      alert('You must be logged in first!');
+      return;}
+  console.log("Submitting form data:", formData); // Debugging line
+  try {
+      const response = await axios.post("http://127.0.0.1:8000/api/tasks",{
+              name: taskDetails.name,
+              startdate: taskDetails.startdate,
+              enddate: taskDetails.enddate,
+              notes: taskDetails.notes,
+              category: taskDetails.category,
+          },
+          {
+              headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("token")}`, // Ensure user is authenticated
+              },
+          }
+      );
+
+      alert("Task added successfully!");
+
+      // Clear form after submission
+      setTaskDetails({
+          name: "",
+          startdate: "",
+          enddate: "",
+          notes: "",
+          category: "low",
+      });
+
+      closeDialog(dialogRef, "taskDialog"); // Close the task dialog
+
+  } catch (error) {
+      console.error("Error adding task:", error.response?.data);
+      alert(error.response?.data?.message || "An error occurred!");
+  }
+};
+
+const handleLogin = async (email, password) => {
+  try {
+      const response = await axios.post('http://localhost:8000/api/login', {
+          email: loginDetails.email,
+          password: loginDetails.password,
+      }, {
+          withCredentials: true, // If you need to send cookies or authentication headers
+      });
+
+      // Handle success (e.g., storing the token, redirecting user, etc.)
+      console.log('Login success:', response.data);
+  } catch (error) {
+    console.error("Error during login:", error.response?.data || error.message);
+      // Handle error (e.g., show error message)
+      console.error('Error during login:', error);
+  }
+};
+
 
   const handleRemoveTask = (index) => {
     const updatedTasks = tasks.filter((_, i) => i !== index);
@@ -221,7 +276,7 @@ function App() {
 
       {/* Task Dialog */}
       <dialog ref={dialogRef} className={`dialogForm ${dialogState.taskDialog ? "show" : ""}`}>
-        <form className="task-form">
+        <form className="task-form"  onSubmit={handleAddTask}>
           <div className="form">
             <img
               src="/closeicon.png"
@@ -244,8 +299,7 @@ function App() {
               <option value="medium">Medium</option>
               <option value="high">High</option>
             </select><br /><br />
-            <button type="button" onClick={handleAddTask} className="submitButton">
-              Submit
+            <button className="submitButton" type="submit">Submit
             </button>
           </div>
         </form>
@@ -304,23 +358,36 @@ function App() {
 
       {/* Login Dialog */}
       <dialog ref={loginDialogRef} className={`dialogForm ${dialogState.loginDialog ? "show" : ""}`}>
-        <form className="task-form">
-          <div className="form">
-            <img
-              src="/closeicon.png"
-              className="closeIcon"
-              onClick={() => closeDialog(loginDialogRef, "loginDialog")}
-              alt="Close"
-            />
-            <strong id="formName">Log in</strong> <br /><br />
-            <label className="formLabel">Login</label>
-            <input type="text" name="name" />
-            <label className="formLabel">Password</label>
-            <input type="password" name="password" /><br /><br />
-            <label className="forgotPassword">Forgot password?</label><br /><br />
-            <button className="submitButton">Submit</button>
-          </div>
-        </form>
+      <form className="task-form" onSubmit={(e) => {
+          e.preventDefault();
+            handleLogin(loginDetails.email, loginDetails.password);
+            }}>
+        <div className="form">
+          <img
+            src="/closeicon.png"
+            className="closeIcon"
+            onClick={() => closeDialog(loginDialogRef, "loginDialog")}
+            alt="Close"
+          />
+          <strong id="formName">Log in</strong> <br /><br />
+          <label className="formLabel">E-mail</label>
+          <input 
+            type="email" 
+            name="email" 
+            onChange={(e) => setLoginDetails({ ...loginDetails, email: e.target.value })} 
+            value={loginDetails.email}
+          />
+          <label className="formLabel">Password</label>
+          <input 
+            type="password" 
+            name="password" 
+            onChange={(e) => setLoginDetails({ ...loginDetails, password: e.target.value })} 
+            value={loginDetails.password}
+          /><br /><br />
+          <button className="submitButton" type="submit">Submit</button>
+        </div>
+</form>
+
       </dialog>
     </div>
   );
