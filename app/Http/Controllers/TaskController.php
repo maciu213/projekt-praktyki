@@ -1,44 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Models\Task;
+use App\Models\Tasks;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    /**
-     * Store a newly created task in storage.
-     */
-    public function store(Request $request)
-    {
-        // Validate the incoming request data
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'priority' => 'required|in:low,medium,high',  // Use the 3-tier system
-        ]);
-
-        // Create a new task
-        $task = Task::create([
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'start_date' => $validated['start_date'],
-            'end_date' => $validated['end_date'],
-            'priority' => $validated['priority'],
-            'user_id' => auth()->id(), // Assign user_id here
-        ]);
-
-        // Return response
-        return response()->json($task, 201); // Return created task with 201 status
-    }
-
-    // Method to get all tasks (optional)
     public function index()
     {
-        $tasks = Task::all();
-        return response()->json($tasks);
+        return response()->json(Auth::user()->tasks);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'priority' => 'required|in:low,medium,high',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        $task = Auth::user()->tasks()->create($validated);
+
+        return response()->json($task, 201);
     }
 }
